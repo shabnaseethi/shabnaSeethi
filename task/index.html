@@ -1,12 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Task-IT CAREER SWITCH</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./favicon.png" rel="icon" />
+    <link href="./libs/css/index.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="header"></div>
+    <div class="main">
+      <table>
+        <tr>
+          <td>API Name</td>
+          <td>API description</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Postal Code details</td>
+          <td>
+            <select id="sel-postcode">
+              <option>Postcode</option>
+              <option value="UB96JQ">UB96JQ</option>
+              <option value="WD38NE">WD38NE</option>
+              <option value="SW36JY">SW36JY</option>
+            </select>
+            <h5>Country:UK</h5>
+          </td>
+          <td><button id="btn-1">submit</button></td>
+        </tr>
+        <tr>
+          <td>Ocean name with latitude and longitude</td>
+          <td>
+            <select id="sel-lat">
+              <option>Latitude</option>
+              <option value="40">40</option>
+              <option value="81">81</option>
+              <option value="50">50</option>
+            </select>
+            <select id="sel-long">
+              <option>Longitude</option>
+              <option value="-43">-43</option>
+              <option value="33">33</option>
+              <option value="1">1</option>
+            </select>
+          </td>
+          <td><button id="btn-2">submit</button></td>
+        </tr>
+        <tr>
+          <td>Weather </td>
+          <td>  <input type="text" id="latitude" placeholder="latitude"/>
+           <input type="text" id="longitude" placeholder="longitude"/>
+           
+          <td><button id="btn-3">submit</button></td>
+        </tr>
+      </table>
+    </div>
+    <div class="results">
+      <table>
+        <th>POSTAL CODE DETAILS</th>
+        <tr>
+          <td>Council:</td>
+          <td id="detail-1"></td>
+        </tr>
+
+        <tr>
+          <td>County:</td>
+          <td id="detail-2"></td>
+        </tr>
+
+        <tr>
+          <td>Country:</td>
+          <td id="detail-3"></td>
+        </tr>
+
+        <tr>
+          <td>Place Name:</td>
+          <td id="detail-4"></td>
+        </tr>
+
+        <tr>
+          <td><h4>Ocean Name:</h4></td>
+          <td><h4 id="ocean-name"></h4></td>
+        </tr>
+
+        <tr><td><h4>Weather Station</h4></td>
+         </tr>
+        <tr>
+          <td>Station Name:</td>
+          <td id="station"></td>
+        </tr>
+        <tr>
+          <td>Clouds:</td>
+          <td id="clouds"></td>
+        </tr>
+
+        <tr>
+          <td>Temperature:</td>
+          <td id="temperature"></td>
+        </tr>
+
+        <tr>
+          <td>Humidity:</td>
+          <td id="humidity"></td>
+        </tr>
+
+      
+      </table>
+    </div>
+    <div id="preloader"></div>
+    <script src="./libs/js/jquery-3.6.3.min.js"></script>
+    <script src="./libs/js/script.js"></script>
+  </body>
 </html>
