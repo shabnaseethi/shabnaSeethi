@@ -35,26 +35,18 @@
         <tr>
           <td>Ocean name with latitude and longitude</td>
           <td>
-            <select id="sel-lat">
-              <option>Latitude</option>
-              <option value="40">40</option>
-              <option value="81">81</option>
-              <option value="50">50</option>
-            </select>
-            <select id="sel-long">
-              <option>Longitude</option>
-              <option value="-43">-43</option>
-              <option value="33">33</option>
-              <option value="1">1</option>
-            </select>
+            <input type="number" id="sel-lat" placeholder="latitude" />
+            <input type="number" id="sel-long" placeholder="longitude" /><br/>
           </td>
           <td><button id="btn-2">submit</button></td>
         </tr>
         <tr>
-          <td>Weather </td>
-          <td>  <input type="text" id="latitude" placeholder="latitude"/>
-           <input type="text" id="longitude" placeholder="longitude"/>
-           
+          <td>Weather</td>
+          <td>
+            <input type="number" id="latitude" placeholder="latitude" />
+            <input type="number" id="longitude" placeholder="longitude" /><br/>
+            eg:43,-2
+          </td>
           <td><button id="btn-3">submit</button></td>
         </tr>
       </table>
@@ -87,8 +79,9 @@
           <td><h4 id="ocean-name"></h4></td>
         </tr>
 
-        <tr><td><h4>Weather Station</h4></td>
-         </tr>
+        <tr>
+          <td><h4>Weather Station</h4></td>
+        </tr>
         <tr>
           <td>Station Name:</td>
           <td id="station"></td>
@@ -107,8 +100,6 @@
           <td>Humidity:</td>
           <td id="humidity"></td>
         </tr>
-
-      
       </table>
     </div>
     <div id="preloader"></div>

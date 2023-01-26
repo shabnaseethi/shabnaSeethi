@@ -27,7 +27,6 @@
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = intval((microtime(true) - $executionStartTime) * 1000) . " ms";
 	$output['data'] = $decode['ocean'];
-	$output['status']['message']= "Error";
   
 	
 	header('Content-Type: application/json; charset=UTF-8');

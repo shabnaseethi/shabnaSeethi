@@ -16,7 +16,6 @@ $('#btn-1').click(()=>{
         dataType: 'json',
         data: {
             postalcode:$('#sel-postcode').val(),
-            name:"shabnaseethi"
         },
         success: function(result) {
             
@@ -59,6 +58,9 @@ $('#btn-2').click(()=>{
            
         },
         error: function(jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
             $('#ocean-name').html("No Ocean Found!!!");
             
         }
@@ -89,7 +91,9 @@ $('#btn-3').click(()=>{
            
         },
         error: function(jqXHR, textStatus, errorThrown) {
-          
+            console.log(jqXHR);
+            console.log(textStatus);
+            console.log(errorThrown);
            
             if(errorThrown){
                 $('#station').html("Enter valid latitude and longitude!!!");
