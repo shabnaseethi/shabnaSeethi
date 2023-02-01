@@ -1,12 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IT CAREER SWITCH-Project-1</title>
+    <link
+      rel="stylesheet"
+      href="../project1//libs/assets/bootstrap/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="../project1//libs/css/index.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+      integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+      crossorigin=""
+    />
+    <link
+      rel="stylesheet"
+      href="../project1/libs/assets/fontawesome/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../project1//libs/assets/marker_cluster/MarkerCluster.css"/>
+    <link rel="stylesheet" href="../project1//libs/assets/marker_cluster/MarkerCluster.Default.css"/>
+    <script
+      src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+      crossorigin=""
+    ></script>
+    <link
+      rel="stylesheet"
+      href="../project1/libs/assets/leafletbutton/easy-button.css"
+    />
+    <script src="../project1/libs/assets/leafletbutton/easy-button.js"></script>
+    <script src="../project1//libs/assets/marker_cluster/leaflet.markercluster.js"></script>
+    <script src="../project1//libs/assets/marker_cluster/leaflet.markercluster-src.js"></script>
+  </head>
+  <body>
+    <!--------------------------------- NAVBAR ---------------------------------->
+
+    <nav class="navbar bg-body-tertiary">
+      <div class="container-fluid">
+        <h3>Gazetteer</h3>
+
+        <form class="d-flex" role="search">
+          <div class="dropdown">
+            <button
+              class="btn btn-secondary dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              id="dropdownMenuButton"
+            >
+              Select your Option
+            </button>
+            <div
+              class="dropdown-menu"
+              aria-labelledby="dropdownMenuButton"
+            ></div>
+          </div>
+        </form>
+        <h3></h3>
+      </div>
+    </nav>
+
+    <!-- _____________________________________MAP_________________________________________ -->
+
+    <div class="map-container">
+      <div id="map"></div>
+    </div>
+
+    <!-- -----------------------------------------MODAL BOX-------------------------------- -->
+
+    <div id="myModal" class="modal fade" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Country Details</h5>
+          </div>
+          <div class="modal-body">
+            <ul>
+              <li class="image-body"><img /></li>
+              <div class="details">
+                <p>Country:</p>
+                <li class="country"></li>
+              </div>
+              <div class="details">
+                <p>Capital:</p>
+                <li class="capital">Capital</li>
+              </div>
+              <div class="details">
+                <p>Area in SQKm:</p>
+                <li class="area">AreaInSqKm</li>
+              </div>
+              <div class="details">
+                <p>Currency:</p>
+                <li class="currency">AreaInSqKm</li>
+              </div>
+              <div class="details">
+                <p>Continent:</p>
+                <li class="continent">AreaInSqKm</li>
+              </div>
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="handleClose()"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ----------------------------------Weather-details-------------------------------------- -->
+
+    <div id="weatherModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title location">Weather Details</h5>
+              </div>
+            <div class="modal-body">
+            <ul>
+            <div class="details"><h4 class="temp"></h4><img class="image"/></div>  
+            <li class="desc"></li>         
+      
+            <div class="details"><p class="min-max"></p><p class="feels"> </p></div>
+           
+            </ul>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="handleClose()"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    <!-- -------------------------------------------Holidays------------------------------------------- -->
+
+    <div id="holidayModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Holidays</h5>
+            </div>
+            <div class="modal-body">
+              <ul class="holidays">
+                
+              </ul>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="handleClose()"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+<!-- -----------------------------------------------NEWS------------------------------------------------------ -->
+<div id="newsModal" class="modal fade" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Latest</h5>
+        </div>
+        <div class="modal-body">
+          <ul class="news">
+            <div class="details"><p>News Heading</p>
+                <li>Date</li></div><hr/>
+          </ul>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="handleClose()"
+            data-dismiss="modal"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
     
-</body>
+
+    <!-- ------------------------------------------------SCRIPTS------------------------------------------- -->
+    <script src="../project1/libs/js/jquery-2.2.3.min.js"></script>
+    <script src="../project1/libs/js/script.js"></script>
+
+    <script src="../project1/libs/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    
+  </body>
 </html>
