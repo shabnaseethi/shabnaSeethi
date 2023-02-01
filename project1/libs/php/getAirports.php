@@ -19,6 +19,12 @@
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_URL,$url);
+    curl_setopt($ch, CURLOPT_HTTPHEADER,[
+        'Content-Type: application/json; charset=UTF-8',
+        'Access-Control-Allow-Origin:*'
+
+    ]
+    );
 
 	$result=curl_exec($ch);
     
@@ -34,7 +40,8 @@
 	$output['data'] = $decode['response'];
   
 	
-	header('Content-Type: application/json; charset=UTF-8');
+	// header('Content-Type: application/json; charset=UTF-8');
+   
 
 	// echo json_encode($output);
     echo $result;

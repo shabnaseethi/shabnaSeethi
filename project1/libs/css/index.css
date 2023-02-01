@@ -12,7 +12,7 @@ body {
 #map {
     
    
-    height: 100vh;
+    height: 90vh;
 }
 
 .fa-circle-info{
@@ -26,6 +26,7 @@ body {
    
 }
 .navbar>.container-fluid{
+   
     justify-content: space-evenly;
 }
 .btn{

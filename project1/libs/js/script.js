@@ -4,14 +4,7 @@ var countryDetails;
 
 // -------------------------------------------LEAFLET-MAp-------------------------------------------
 
-var Dark = L.tileLayer(
-  "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png",
-  {
-    maxZoom: 20,
-    attribution:
-      '&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
-  }
-);
+
 var WorldImagery = L.tileLayer(
   "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
   {
@@ -29,18 +22,22 @@ var Stamen_Terrain = L.tileLayer(
     ext: "png",
   }
 );
+
+var osm_layer =L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  maxZoom: 8,
+  attribution:
+    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+});
 var baseLayers = {
+  osm:osm_layer,
   Terrain: Stamen_Terrain,
-  Dark: Dark,
   imagery: WorldImagery,
 };
 
 var map = L.map("map").setView([20.5937, 78.9629], 4);
 var markers = []
 markers =L.markerClusterGroup();
-map.eachLayer(function (layer){
-  markers.clear()
-})
+
 L.control.layers(baseLayers).addTo(map);
 L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 8,
@@ -51,11 +48,12 @@ L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
 // -------------------------------------GEOJSON------------------------------------
 
 var data = async (value) =>
+
   await fetch("./libs/resources/countryBorders.geo.json")
     .then((results) => results.json())
     .then((data) => {
-      // clear previous geojson layer
-
+      // clear previous geojson  layer and markers
+      markers.clearLayers();
       map.eachLayer(function (layer) {
         if (layer.myTag && layer.myTag === "previousLayer") {
           map.removeLayer(layer);
