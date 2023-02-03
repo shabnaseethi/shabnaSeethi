@@ -1,3 +1,4 @@
+
 <?php
     
 	ini_set('display_errors', 'On');
@@ -12,8 +13,9 @@
 	$executionStartTime = microtime(true);
 
 
-    $url ='https://holidayapi.com/v1/holidays?pretty&key=151ee446-dcd5-4bdb-a73a-943f9709939c&country='.$_REQUEST['country'].'&year=2022';
-	
+    $url ="https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=".$_REQUEST['country'];
+
+
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -30,7 +32,7 @@
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = intval((microtime(true) - $executionStartTime) * 1000) . " ms";
-	$output['data'] = $decode['holidays'];
+	$output['data'] = $decode['query']['pages'];
   
 	
 	header('Content-Type: application/json; charset=UTF-8');

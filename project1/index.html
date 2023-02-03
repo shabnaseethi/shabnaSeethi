@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gazetteer</title>
+    <title>IT CAREER SWITCH-Project-1</title>
     <link
       rel="stylesheet"
       href="../project1//libs/assets/bootstrap/css/bootstrap.min.css"
@@ -20,20 +20,19 @@
       rel="stylesheet"
       href="../project1/libs/assets/fontawesome/css/all.min.css"
     />
-    <link rel="stylesheet" href="../project1//libs/assets/marker_cluster/MarkerCluster.css"/>
-    <link rel="stylesheet" href="../project1//libs/assets/marker_cluster/MarkerCluster.Default.css"/>
-    <script
-      src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
-      crossorigin=""
-    ></script>
+    <link
+      rel="stylesheet"
+      href="../project1//libs/assets/marker_cluster/MarkerCluster.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../project1//libs/assets/marker_cluster/MarkerCluster.Default.css"
+    />
+
     <link
       rel="stylesheet"
       href="../project1/libs/assets/leafletbutton/easy-button.css"
     />
-    <script src="../project1/libs/assets/leafletbutton/easy-button.js"></script>
-    <script src="../project1//libs/assets/marker_cluster/leaflet.markercluster.js"></script>
-    <script src="../project1//libs/assets/marker_cluster/leaflet.markercluster-src.js"></script>
   </head>
   <body>
     <!--------------------------------- NAVBAR ---------------------------------->
@@ -78,35 +77,43 @@
             <h5 class="modal-title">Country Details</h5>
           </div>
           <div class="modal-body">
-            <ul>
-              <li class="image-body"><img /></li>
-              <div class="details">
-                <p>Country:</p>
-                <li class="country"></li>
-              </div>
-              <div class="details">
-                <p>Capital:</p>
-                <li class="capital">Capital</li>
-              </div>
-              <div class="details">
-                <p>Area in SQKm:</p>
-                <li class="area">AreaInSqKm</li>
-              </div>
-              <div class="details">
-                <p>Currency:</p>
-                <li class="currency">AreaInSqKm</li>
-              </div>
-              <div class="details">
-                <p>Continent:</p>
-                <li class="continent">AreaInSqKm</li>
-              </div>
-            </ul>
+            <table class="table table-striped">
+              <thead>
+                <div class="image-body"><img /></div>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Country</th>
+                  <td class="country">Otto</td>
+                </tr>
+                <tr>
+                  <th scope="row">Capital</th>
+                  <td class="capital"></td>
+                </tr>
+                <tr>
+                  <th scope="row">Area</th>
+                  <td class="area"></td>
+                </tr>
+                <tr>
+                  <th scope="row">Population</th>
+                  <td class="population"></td>
+                </tr>
+                <tr>
+                  <th scope="row">Currency</th>
+                  <td class="currency"></td>
+                </tr>
+                <tr>
+                  <th scope="row">Continent</th>
+                  <td class="continent"></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <div class="modal-footer">
             <button
               type="button"
               class="btn btn-secondary"
-              onclick="handleClose()"
+              id="modal-close"
               data-dismiss="modal"
             >
               Close
@@ -119,96 +126,189 @@
     <!-- ----------------------------------Weather-details-------------------------------------- -->
 
     <div id="weatherModal" class="modal fade" tabindex="-1">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title location">Weather Details</h5>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title location">Weather Details</h5>
+          </div>
+          <div class="modal-body">
+            <div class="details">
+              <div class="detail-header">
+                <h5 class="location">London,GB</h5>
+                <h6 class="description">Broken Clouds</h6>
               </div>
-            <div class="modal-body">
-            <ul>
-            <div class="details"><h4 class="temp"></h4><img class="image"/></div>  
-            <li class="desc"></li>         
-      
-            <div class="details"><p class="min-max"></p><p class="feels"> </p></div>
-           
-            </ul>
+              <div><img  class="image"/></div>
             </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                onclick="handleClose()"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
+            <div class="temp-container">
+              <h6 class="temperature">8 C</h6>
+              <div class="temp-details">
+                <table class="table table-striped">
+                  <tbody>
+                    <tr>
+                      <th scope="row">Feels like</th>
+                      <td class="feels">Otto</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Max temp</th>
+                      <td class="max-temp">Otto</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Min temp</th>
+                      <td class="min-temp">Otto</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Wind</th>
+                      <td class="wind">Otto</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Humidity</th>
+                      <td class="humidity">Otto</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Pressure</th>
+                      <td class="pressure">Otto</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
+          </div>
+          <div class="modal-footer">
+            <div class="date">123/345</div>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="modal-close"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
           </div>
         </div>
       </div>
-
+    </div>
 
     <!-- -------------------------------------------Holidays------------------------------------------- -->
 
     <div id="holidayModal" class="modal fade" tabindex="-1">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Holidays</h5>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Holidays</h5>
+          </div>
+          <div class="modal-body">
+            <div class="holidays">
+              <table class="table table-striped">
+                <tbody></tbody>
+              </table>
             </div>
-            <div class="modal-body">
-              <ul class="holidays">
-                
-              </ul>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                onclick="handleClose()"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="modal-close"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
           </div>
         </div>
       </div>
+    </div>
 
-
-<!-- -----------------------------------------------NEWS------------------------------------------------------ -->
-<div id="newsModal" class="modal fade" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Latest</h5>
-        </div>
-        <div class="modal-body">
-          <ul class="news">
-            <div class="details"><p>News Heading</p>
-                <li>Date</li></div><hr/>
-          </ul>
-        </div>
-        <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            onclick="handleClose()"
-            data-dismiss="modal"
-          >
-            Close
-          </button>
+    <!-- -----------------------------------------------NEWS------------------------------------------------------ -->
+    <div id="newsModal" class="modal fade" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Latest News</h5>
+          </div>
+          <div class="modal-body">
+            <div class="news"></div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="modal-close"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-    
+
+    <!-- -------------------------------------------------------WIKI------------------------------------------------ -->
+
+    <div id="wikiModal" class="modal fade" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">UNited Kingdom</h5>
+          </div>
+          <div class="modal-body">
+            <div class="wiki"></div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="modal-close"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- ---------------------------------------------PLaces------------------------------------------------- -->
+    <div id="placesModal" class="modal fade" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Administrative Divisions</h5>
+          </div>
+          <div class="places">
+            <table class="table table-striped">
+              <tbody></tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="modal-close"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
 
     <!-- ------------------------------------------------SCRIPTS------------------------------------------- -->
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+      integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+      crossorigin=""
+    ></script>
+    <script src="../project1/libs/assets/leafletbutton/easy-button.js"></script>
+    <script src="../project1//libs/assets/marker_cluster/leaflet.markercluster.js"></script>
+    <script src="../project1//libs/assets/marker_cluster/leaflet.markercluster-src.js"></script>
     <script src="../project1/libs/js/jquery-2.2.3.min.js"></script>
     <script src="../project1/libs/js/script.js"></script>
 
     <script src="../project1/libs/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
-    
   </body>
 </html>

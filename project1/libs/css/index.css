@@ -36,18 +36,10 @@ body {
 .modal-body{
     text-align: center;
 }
-.modal-body ul{
-    list-style: none;
-    padding: 0;
-    
-}
+
 .image img{
     width: 50px;
     height: 50px;
-}
-.modal-body .desc {
-    text-transform: capitalize;
-    font-size: 20px;
 }
 
 .details{
@@ -56,7 +48,91 @@ body {
     justify-content: space-between;
 
 }
-.holidays,.news{
+div .modal-body{
+    margin:0;
+    padding: 0;
+}
+
+.modal-body .table td th{
+    padding: 0;
+}
+.holidays,.news,.wiki,.places{
+    padding: 0;
     max-height: 280px;
     overflow-y: auto;
+  
+}
+.news .image-wrapper{
+    height: 300px;
+    width:90%;
+    margin:20px auto 0px auto;
+  
+
+}
+.news .image-wrapper img{
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+.news a{
+    text-decoration: none;
+    color:black;
+}
+.news h5{
+    font-size: 16px;
+    margin:0 30px;
+    text-justify: newspaper;
+    font-weight: 400;
+}
+.news p{
+    text-align: right;
+    font-style: italic;
+    margin: 10px 30px;
+    font-size: 14px;
+}
+.wiki p{
+    margin:20px;
+    text-align: justify;
+    font-size: 15px;
+    text-indent: 20px;
+
+}
+.modal-header{
+    background-color: rgb(103, 150, 182);
+}
+ div .details{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 20px 0;
+    font-size: 15px;
+   
+}
+div .details h5{
+    font-size: 20px;
+}
+div .details h6{
+    font-size: 15px;
+    font-style: italic;
+}
+div .details img{
+    width:100px;
+    height: auto;
+}
+div .temp-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+div .temp-container h6{
+    font-size: 80px;
+}
+
+div .modal-footer{
+    justify-content: space-between;
+}
+div .places table td{
+    text-align: center;
 }
