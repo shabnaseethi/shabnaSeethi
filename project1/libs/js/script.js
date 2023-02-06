@@ -4,15 +4,18 @@ var mapData;
 
 // Add airports
 
+var marker;
 var markers = [];
 markers = L.markerClusterGroup();
 
 var myIcon = L.icon({
-  iconUrl: './libs/resources/black-plane.png',
-  iconSize: [40, 40], iconAnchor: [20, 20], popupAnchor: [-20, -20],
+  iconUrl: "./libs/resources/black-plane.png",
+  iconSize: [40, 40],
+  iconAnchor: [20, 20],
+  popupAnchor: [-20, -20],
 });
 
-const getAirports=(country)=>{
+const getAirports = (country) => {
   $.ajax({
     url: "libs/php/getAirports.php",
     type: "POST",
@@ -21,23 +24,23 @@ const getAirports=(country)=>{
       country: country,
     },
     success: function (result) {
+      markers.clearLayers();
 
-      result.response.map((item, index) => {
-        markers.addLayer(L.marker([item.lat, item.lng], { icon: myIcon }).bindPopup(item.name));
-       
+      result.response.forEach((item, index) => {
+        marker = L.marker([item.lat, item.lng], { icon: myIcon }).bindPopup(
+          item.name
+        );
+        markers.addLayers(marker);
       });
     },
+
     error: function (jqXHR, textStatus, errorThrown) {
       // your error code
       console.log(textStatus);
       console.log(errorThrown);
     },
   });
-
-}
-
-
-
+};
 
 // -------------------------------------------LEAFLET-MAp-------------------------------------------
 
@@ -70,27 +73,26 @@ var baseLayers = {
   imagery: WorldImagery,
 };
 
-
-
-var map = L.map("map",{
+var map = L.map("map", {
   maxZoom: 18,
   zoom: 17,
-  zoomControl: true
+  zoomControl: true,
 }).setView([20.5937, 78.9629], 4);
 
+var overLayMaps = {
+  Airports: markers,
+};
 
-var overLayMaps ={
-  "Airports":markers
-}
+L.control.layers(baseLayers, overLayMaps).addTo(map);
 
-L.control.layers(baseLayers,overLayMaps).addTo(map);
-
-var currentBaseLayer = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  maxZoom: 8,
-  attribution:
-    '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-}).addTo(map);
-
+var currentBaseLayer = L.tileLayer(
+  "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+  {
+    maxZoom: 8,
+    attribution:
+      '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  }
+).addTo(map);
 
 // -------------------------------------GEOJSON------------------------------------
 
@@ -100,10 +102,8 @@ const data = async (value) => {
     type: "GET",
     dataType: "json",
     success: function (result) {
-   
-
       // clear previous geojson  layer and markers
-      markers.clearLayers();
+
       map.eachLayer(function (layer) {
         if (layer.myTag && layer.myTag === "previousLayer") {
           map.removeLayer(layer);
@@ -145,7 +145,6 @@ const data = async (value) => {
         },
         success: function (result) {
           countryDetails = result.geonames[0];
-         
         },
         error: function (jqXHR, textStatus, errorThrown) {
           // your error code
@@ -179,7 +178,7 @@ const successCallback = (position) => {
     },
     success: function (result) {
       country = result.data;
-getAirports(country);
+      getAirports(country);
       data(country);
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -208,9 +207,8 @@ $("body").on("click", ".dropdown-menu .dropdown-item", function (e) {
     .parents(".dropdown")
     .find("#dropdownMenuButton")
     .html(selText + ' <span class="caret"></span>');
-    getAirports(country);
+  getAirports(country);
   data(country);
- 
 });
 
 $("document").ready(() => {
@@ -251,19 +249,16 @@ $("document").ready(() => {
 
 // ----------------------------------LEAFLET- BUTTONS------------------------------------------
 
-
-
-$(".btn").click(()=>{
+$(".btn").click(() => {
   $("#myModal").modal("hide");
   $("#weatherModal").modal("hide");
   $("#holidayModal").modal("hide");
   $("#newsModal").modal("hide");
   $("#wikiModal").modal("hide");
   $("#placesModal").modal("hide");
-})
+});
 
 L.easyButton("fa-circle-info", () => {
-
   $("#myModal").modal("show");
   $(".image-body img").attr(
     "src",
@@ -278,7 +273,6 @@ L.easyButton("fa-circle-info", () => {
 }).addTo(map);
 
 L.easyButton("fa-cloud", () => {
-
   $.ajax({
     url: "libs/php/getWeather.php",
     type: "POST",
@@ -287,28 +281,19 @@ L.easyButton("fa-cloud", () => {
       capital: countryDetails.capital.replace(" ", "%20"),
     },
     success: function (result) {
-  
       $("#weatherModal").modal("show");
       $(".image").attr(
         "src",
         ` http://openweathermap.org/img/wn/${result.weather[0].icon}.png`
       );
-      $(".location").text(result.name+","+result.sys.country);
-      $(".feels").text(
-        Math.floor(result.main.feels_like - 273) + " °C"
-      );
-      $(".min-temp").text(
-        Math.floor(result.main.temp_min - 273) +
-          " °C" 
-      );
-      $(".max-temp").text(
-        Math.floor(result.main.temp_max - 273) +
-          " °C" 
-      );
+      $(".location").text(result.name + "," + result.sys.country);
+      $(".feels").text(Math.floor(result.main.feels_like - 273) + " °C");
+      $(".min-temp").text(Math.floor(result.main.temp_min - 273) + " °C");
+      $(".max-temp").text(Math.floor(result.main.temp_max - 273) + " °C");
       $(".temperature").html(Math.floor(result.main.temp - 273) + " °C");
       $(".description").text(result.weather[0].description);
       $(".pressure").text(result.main.pressure);
-      $(".wind").text(result.wind.speed+"m/s");
+      $(".wind").text(result.wind.speed + "m/s");
       $(".humidity").text(result.main.humidity);
       $(".date").html(new Date().toLocaleDateString());
     },
@@ -320,7 +305,6 @@ L.easyButton("fa-cloud", () => {
   });
 }).addTo(map);
 
-
 L.easyButton("fa-brands fa-wikipedia-w", () => {
   $(".wiki").empty();
   $.ajax({
@@ -331,19 +315,14 @@ L.easyButton("fa-brands fa-wikipedia-w", () => {
       country: countryDetails.countryName.replace(" ", "%20"),
     },
     success: function (result) {
-     
-      $("#wikiModal").modal("show");      
+      $("#wikiModal").modal("show");
       var arr = Object.values(result.query.pages);
-      const url =`https://en.wikipedia.org/wiki/${countryDetails.countryName}`;
+      const url = `https://en.wikipedia.org/wiki/${countryDetails.countryName}`;
       $("#wikiModal .modal-title").html(countryDetails.countryName);
       $(".wiki").append(
         `  <p id="wiki-details">${arr[0].extract}</p>
         <a href=${url} id="wiki-link">More>>>></a>`
       );
-      
-      
-     
-      
     },
     error: function (jqXHR, textStatus, errorThrown) {
       // your error code
@@ -363,12 +342,10 @@ L.easyButton("fa-solid fa-newspaper", () => {
       country: country,
     },
     success: function (result) {
-     
       $("#newsModal").modal("show");
 
       if (result.results) {
         result.results.map((article) => {
-          
           if (article.image_url !== null) {
             $(".news").append(
               `<div class="image-wrapper">
@@ -384,15 +361,15 @@ L.easyButton("fa-solid fa-newspaper", () => {
               <hr />`
             );
           }
-        if(article.image_url===null){
-          $(".news").append(
-            `<a href=${article.link}<h5>
+          if (article.image_url === null) {
+            $(".news").append(
+              `<a href=${article.link}<h5>
             ${article.title}
             </h5></a>
             <p>${article.pubDate}</p>
-            <hr />`);
-        }
-          
+            <hr />`
+            );
+          }
         });
       }
     },
@@ -420,14 +397,13 @@ L.easyButton("fa-solid fa-calendar-days", () => {
 
         const month = newDate.toLocaleString("default", { month: "long" });
         const date = newDate.getDate();
-        const year = newDate.getFullYear()+ 1;
+        const year = newDate.getFullYear() + 1;
 
         $(".holidays table").append(
-         `<tr>
+          `<tr>
           <th scope="row">${date} ${month} ${year}</th>
           <td class="country">${holiday.name}</td>
         </tr>`
-          
         );
       });
     },
@@ -451,17 +427,14 @@ L.easyButton("fa-solid fa-location-dot", () => {
     success: function (result) {
       $("#placesModal").modal("show");
 
-      result.map((place)=>{
-    
+      result.map((place) => {
         $(".places table").append(
           `<tr>
            
            <td>${place}</td>
          </tr>`
-           
-         );
-      })
-    
+        );
+      });
     },
     error: function (jqXHR, textStatus, errorThrown) {
       // your error code

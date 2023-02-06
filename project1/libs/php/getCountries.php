@@ -14,6 +14,9 @@
 
     $url ="http://localhost/project1/libs/resources/countryBorders.geo.json";
 
+	// $url ="https://shabnaseethi.epizy.com/project1/libs/resources/countryBorders.geo.json";
+
+
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);

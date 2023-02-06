@@ -37,6 +37,7 @@ body {
     text-align: center;
 }
 
+
 .image img{
     width: 50px;
     height: 50px;
@@ -105,8 +106,8 @@ div .modal-body{
     flex-direction: row;
     justify-content: space-evenly;
     align-items: center;
-    margin: 20px 0;
     font-size: 15px;
+    background-color: rgb(103, 150, 182);
    
 }
 div .details h5{
