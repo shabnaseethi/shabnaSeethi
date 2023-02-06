@@ -29,25 +29,24 @@
 	curl_close($ch);
 
 	$decode = json_decode($result,true);	
-
-	$output['status']['code'] = "200";
-	$output['status']['name'] = "ok";
-	$output['status']['description'] = "success";
-	$output['status']['returnedIn'] = intval((microtime(true) - $executionStartTime) * 1000) . " ms";
     
     $i=0;
+	
+	$result;
     foreach($decode["features"] as $item){   
-    $output['data'][$i] = $item['properties'];
+    $output[$i] = $item['properties'];
     $i++;
     }
 
+	// $filtered = array_filter(
+	// 	$output,
+	// 	function($obj){ 
+	// 	   return $obj['iso_a2'];
+	// 	});
 
 	
 	header('Content-Type: application/json; charset=UTF-8');
-
-	echo json_encode($output['data']);
-   
-   
-  
+				
+	echo json_encode($output);  
 
 ?>

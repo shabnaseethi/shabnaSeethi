@@ -113,7 +113,7 @@ const data = async (value) => {
 
       // Add geojson
 
-      const geoData = result.features.filter(
+      const geoData = result.filter(
         (item) => item.properties.iso_a2 === value
       );
 
@@ -218,7 +218,7 @@ $("document").ready(() => {
     type: "GET",
     dataType: "json",
     success: function (result) {
-    
+  
       var countries = [];
 
       result.forEach((item) =>
