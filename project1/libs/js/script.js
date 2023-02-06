@@ -97,6 +97,7 @@ var currentBaseLayer = L.tileLayer(
 // -------------------------------------GEOJSON------------------------------------
 
 const data = async (value) => {
+  
   $.ajax({
     url: "libs/php/getCountriesBorder.php",
     type: "GET",
@@ -217,12 +218,13 @@ $("document").ready(() => {
     type: "GET",
     dataType: "json",
     success: function (result) {
+    
       var countries = [];
 
-      result.features.forEach((item) =>
+      result.forEach((item) =>
         countries.push({
-          name: item.properties.name,
-          code: item.properties.iso_a2,
+          name: item.name,
+          code: item.iso_a2,
         })
       );
 

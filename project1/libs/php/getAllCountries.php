@@ -34,13 +34,20 @@
 	$output['status']['name'] = "ok";
 	$output['status']['description'] = "success";
 	$output['status']['returnedIn'] = intval((microtime(true) - $executionStartTime) * 1000) . " ms";
-	$output['data'] = $decode['features'];
-  
+    
+    $i=0;
+    foreach($decode["features"] as $item){   
+    $output['data'][$i] = $item['properties'];
+    $i++;
+    }
+
+
 	
 	header('Content-Type: application/json; charset=UTF-8');
 
-	// echo json_encode($output);
-    echo $result;
+	echo json_encode($output['data']);
+   
+   
   
 
 ?>
