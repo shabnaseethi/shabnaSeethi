@@ -98,11 +98,11 @@ var currentBaseLayer = L.tileLayer(
 
 const data = async (value) => {
   $.ajax({
-    url: "libs/php/getCountries.php",
+    url: "libs/php/getCountriesBorder.php",
     type: "GET",
     dataType: "json",
     success: function (result) {
-      // clear previous geojson  layer and markers
+      // clear previous geojson  layer
 
       map.eachLayer(function (layer) {
         if (layer.myTag && layer.myTag === "previousLayer") {
@@ -213,7 +213,7 @@ $("body").on("click", ".dropdown-menu .dropdown-item", function (e) {
 
 $("document").ready(() => {
   $.ajax({
-    url: "libs/php/getCountries.php",
+    url: "libs/php/getAllCountries.php",
     type: "GET",
     dataType: "json",
     success: function (result) {
@@ -232,7 +232,7 @@ $("document").ready(() => {
 
       countries.forEach((item) =>
         $(".dropdown-menu").append(
-          `<a class="dropdown-item" href="#" data-value=${item.code}>` +
+          `<a class="dropdown-item" href="#" data-value=${item.code} target="_blank">` +
             item.name +
             "</a>"
         )
@@ -321,7 +321,7 @@ L.easyButton("fa-brands fa-wikipedia-w", () => {
       $("#wikiModal .modal-title").html(countryDetails.countryName);
       $(".wiki").append(
         `  <p id="wiki-details">${arr[0].extract}</p>
-        <a href=${url} id="wiki-link">More>>>></a>`
+        <a href=${url} target="_blank" id="wiki-link">More>>>></a>`
       );
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -349,7 +349,7 @@ L.easyButton("fa-solid fa-newspaper", () => {
           if (article.image_url !== null) {
             $(".news").append(
               `<div class="image-wrapper">
-                <a href=${article.link}
+                <a href=${article.link} target="_blank"
                   ><img
                     src=${article.image_url}
                 /></a>
@@ -363,7 +363,7 @@ L.easyButton("fa-solid fa-newspaper", () => {
           }
           if (article.image_url === null) {
             $(".news").append(
-              `<a href=${article.link}<h5>
+              `<a href=${article.link} target="_blank"><h5>
             ${article.title}
             </h5></a>
             <p>${article.pubDate}</p>
