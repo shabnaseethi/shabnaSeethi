@@ -30,23 +30,29 @@
 
 	$decode = json_decode($result,true);	
 
-	$output= $decode['features'];
-  
+	$countryBorder;
+    for ($i = 0; $i < count($decode['features']); $i++) {
+        if($decode['features'][$i]['properties']['iso_a2'] == $_REQUEST['code']){
+        $countryBorder = $decode['features'][$i]['geometry'];
+        }
+    };
 
+	$output['status']['code'] = "200";
 
-	$i=0;
-	
-	$result;
-    foreach($decode["features"] as $item){   
-    $output[$i]= $item;
-	$i++;
-    
-    }
-	
-	header('Content-Type: application/json; charset=UTF-8');
+    $output['status']['name'] = "ok";
 
-	echo json_encode($output);
-    // echo $result;
+    $output['status']['description'] = "success";
+
+    $output['status']['returnedIn'] = intval((microtime(true) - $executionStartTime) * 1000) . " ms";
+
+    $output['data'] = $countryBorder;
+
+   
+    header('Content-Type: application/json; charset=UTF-8');
+
+ 
+
+    echo json_encode($output);
   
 
 ?>

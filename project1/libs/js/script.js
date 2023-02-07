@@ -97,11 +97,15 @@ var currentBaseLayer = L.tileLayer(
 // -------------------------------------GEOJSON------------------------------------
 
 const data = async (value) => {
-  
+ 
   $.ajax({
     url: "libs/php/getCountriesBorder.php",
     type: "GET",
     dataType: "json",
+    data: {
+      code: value,
+    },
+
     success: function (result) {
       // clear previous geojson  layer
 
@@ -111,11 +115,9 @@ const data = async (value) => {
         }
       });
 
-      // Add geojson
+      // // Add geojson
 
-      const geoData = result.filter(
-        (item) => item.properties.iso_a2 === value
-      );
+      const geoData = result.data;
 
       var borderStyle = {
         color: "Teal",
@@ -135,30 +137,29 @@ const data = async (value) => {
         .addTo(map);
 
       map.fitBounds(geojson.getBounds());
-
-      $.ajax({
-        url: "libs/php/getCountryInfo.php",
-        type: "POST",
-        dataType: "json",
-        data: {
-          lang: "en",
-          country: country,
-        },
-        success: function (result) {
-          countryDetails = result.geonames[0];
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          // your error code
-          console.log(textStatus);
-          console.log(errorThrown);
-        },
-      });
     },
     error: function (jqXHR, textStatus, errorThrown) {
       // your error code
       console.log(textStatus);
       console.log(errorThrown);
       console.log(jqXHR);
+    },
+  });
+  $.ajax({
+    url: "libs/php/getCountryInfo.php",
+    type: "POST",
+    dataType: "json",
+    data: {
+      lang: "en",
+      country: country,
+    },
+    success: function (result) {
+      countryDetails = result.geonames[0];
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      // your error code
+      console.log(textStatus);
+      console.log(errorThrown);
     },
   });
 };
@@ -178,6 +179,7 @@ const successCallback = (position) => {
       longitude: longitude,
     },
     success: function (result) {
+     
       country = result.data;
       getAirports(country);
       data(country);
@@ -218,7 +220,6 @@ $("document").ready(() => {
     type: "GET",
     dataType: "json",
     success: function (result) {
-  
       var countries = [];
 
       result.forEach((item) =>
