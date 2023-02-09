@@ -2,7 +2,7 @@ var country;
 var countryDetails;
 var mapData;
 
-// Add airports
+// -----------------Adding  airports---------------------
 
 var marker;
 var markers = [];
@@ -24,6 +24,8 @@ const getAirports = (country) => {
       country: country,
     },
     success: function (result) {
+      // Clear previous markers
+
       markers.clearLayers();
 
       result.response.forEach((item, index) => {
@@ -97,7 +99,6 @@ var currentBaseLayer = L.tileLayer(
 // -------------------------------------GEOJSON------------------------------------
 
 const data = async (value) => {
- 
   $.ajax({
     url: "libs/php/getCountriesBorder.php",
     type: "GET",
@@ -115,7 +116,7 @@ const data = async (value) => {
         }
       });
 
-      // // Add geojson
+      // // Add geojson layer
 
       const geoData = result.data;
 
@@ -145,6 +146,9 @@ const data = async (value) => {
       console.log(jqXHR);
     },
   });
+
+  // To get the details of the country
+
   $.ajax({
     url: "libs/php/getCountryInfo.php",
     type: "POST",
@@ -179,7 +183,6 @@ const successCallback = (position) => {
       longitude: longitude,
     },
     success: function (result) {
-     
       country = result.data;
       getAirports(country);
       data(country);
@@ -229,9 +232,9 @@ $("document").ready(() => {
         })
       );
 
-      countries.sort((a, b) =>
-        a.name < b.name ? -1 : a.name > b.name ? 1 : 0
-      );
+      // To display countries in alphabetical order
+
+      countries.sort((a, b) => a.name.localeCompare(b.name));
 
       countries.forEach((item) =>
         $(".dropdown-menu").append(
@@ -261,6 +264,8 @@ $(".btn").click(() => {
   $("#placesModal").modal("hide");
 });
 
+// ----------------------------------Country Details----------------------------------------
+
 L.easyButton("fa-circle-info", () => {
   $("#myModal").modal("show");
   $(".image-body img").attr(
@@ -274,6 +279,8 @@ L.easyButton("fa-circle-info", () => {
   $(".continent").text(countryDetails.continentName);
   $(".population").text(Number(countryDetails.population).toLocaleString());
 }).addTo(map);
+
+// --------------------------------------Weather Data-------------------------------------------
 
 L.easyButton("fa-cloud", () => {
   $.ajax({
@@ -308,6 +315,8 @@ L.easyButton("fa-cloud", () => {
   });
 }).addTo(map);
 
+// ---------------------------------------------------WIKIPEDIA------------------------------------------
+
 L.easyButton("fa-brands fa-wikipedia-w", () => {
   $(".wiki").empty();
   $.ajax({
@@ -335,6 +344,8 @@ L.easyButton("fa-brands fa-wikipedia-w", () => {
   });
 }).addTo(map);
 
+// ------------------NEWS-------------------------
+
 L.easyButton("fa-solid fa-newspaper", () => {
   $(".news").empty();
   $.ajax({
@@ -347,7 +358,7 @@ L.easyButton("fa-solid fa-newspaper", () => {
     success: function (result) {
       $("#newsModal").modal("show");
 
-      if (result.results) {
+      if (Array.isArray(result.results)) {
         result.results.map((article) => {
           if (article.image_url !== null) {
             $(".news").append(
@@ -384,6 +395,8 @@ L.easyButton("fa-solid fa-newspaper", () => {
   });
 }).addTo(map);
 
+// ---------------------------------Holidays-------------------------------------
+
 L.easyButton("fa-solid fa-calendar-days", () => {
   $(".holidays table").empty();
   $.ajax({
@@ -417,6 +430,8 @@ L.easyButton("fa-solid fa-calendar-days", () => {
     },
   });
 }).addTo(map);
+
+// --------------------------Administrative Divisions-------------------------
 
 L.easyButton("fa-solid fa-location-dot", () => {
   $(".places table").empty();

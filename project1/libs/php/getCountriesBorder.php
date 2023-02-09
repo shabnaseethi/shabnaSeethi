@@ -12,9 +12,9 @@
 	$executionStartTime = microtime(true);
 
 
-    $url ="http://localhost/project1/libs/resources/countryBorders.geo.json";
+    // $url ="http://localhost/project1/libs/resources/countryBorders.geo.json";
 
-	// $url ="https://shabnaseethi.epizy.com/project1/libs/resources/countryBorders.geo.json";
+	$url ="https://shabnaseethi.epizy.com/project1/libs/resources/countryBorders.geo.json";
 
 
 
