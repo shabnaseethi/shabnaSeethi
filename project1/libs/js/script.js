@@ -19,8 +19,6 @@ var myIcon = L.ExtraMarkers.icon({
   svg: true,
 });
 
-
-
 const getAirports = (country) => {
   $.ajax({
     url: "libs/php/getAirports.php",
@@ -69,10 +67,13 @@ var Stamen_Terrain = L.tileLayer(
     ext: "png",
   }
 );
-var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+var googleSat = L.tileLayer(
+  "http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+  {
     maxZoom: 20,
-    subdomains:['mt0','mt1','mt2','mt3']
-});
+    subdomains: ["mt0", "mt1", "mt2", "mt3"],
+  }
+);
 
 var osm_layer = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 8,
@@ -83,7 +84,6 @@ var baseLayers = {
   Street: osm_layer,
   Terrain: Stamen_Terrain,
   Satellite: WorldImagery,
- 
 };
 
 var map = L.map("map", {
@@ -195,7 +195,11 @@ const successCallback = (position) => {
     },
     success: function (result) {
       country = result.data;
-      $("#sel-country").val(country);
+
+     
+      $(`#sel-country option[value=${country}]`).attr("selected", "selected");
+   
+
       getAirports(country);
       data(country);
     },
@@ -306,7 +310,6 @@ L.easyButton("fa-circle-info", () => {
 // --------------------------------------Weather Data-------------------------------------------
 
 L.easyButton("fa-cloud", () => {
-
   $.ajax({
     url: "libs/php/getWeather.php",
     type: "POST",
@@ -315,28 +318,27 @@ L.easyButton("fa-cloud", () => {
       capital: countryDetails.capital.replace(" ", "%20"),
     },
     success: function (result) {
-     
       $("#weatherModal .weather-capital").html(result.location.name);
       $("#weatherModal .weather-time").html(
         new Date(result.location.localtime).toLocaleString("en-us", {
-          day:"numeric",
+          day: "numeric",
           weekday: "short",
           hour: "2-digit",
-            minute: "2-digit",
-        }) 
+          minute: "2-digit",
+        })
       );
       $("#weatherModal .temp").html(result.current.feelslike_c + "°C");
-      $('.image-desc').empty();
-      $('.weather-forecast').empty();
-      $('.image-desc').append(`  <img
+      $(".image-desc").empty();
+      $(".weather-forecast").empty();
+      $(".image-desc").append(`  <img
       class="image"
       src=${result.current.condition.icon}
     />
-    <p class="desc">${result.current.condition.text}</p>`)
+    <p class="desc">${result.current.condition.text}</p>`);
       // $("#weatherModal .image").attr("src", ` `);
       result.forecast.forecastday.map((item) => {
-      if(result.forecast.forecastday.indexOf(item)>0){
-        $(".weather-forecast").append(`<div class="col-sm">
+        if (result.forecast.forecastday.indexOf(item) > 0) {
+          $(".weather-forecast").append(`<div class="col-sm">
         <div class="forecast">
           <h6 class="day">${new Date(item.date).toLocaleString("en-us", {
             weekday: "short",
@@ -354,7 +356,7 @@ L.easyButton("fa-cloud", () => {
          </div>
         </div>
       </div>`);
-      }
+        }
       });
     },
     error: function (jqXHR, textStatus, errorThrown) {
@@ -423,11 +425,11 @@ L.easyButton("fa-solid fa-newspaper", () => {
               <h5>
               ${article.title}
               </h5>
-              <p>${ new Date(article.pubDate).toLocaleString("en-us", {
-                day:"numeric",
+              <p>${new Date(article.pubDate).toLocaleString("en-us", {
+                day: "numeric",
                 weekday: "short",
                 hour: "2-digit",
-                minute: "2-digit"
+                minute: "2-digit",
               })}</p>
               
               <hr />`
@@ -438,11 +440,11 @@ L.easyButton("fa-solid fa-newspaper", () => {
               `<a href=${article.link} target="_blank"><h5>
             ${article.title}
             </h5></a>
-            <p>${ new Date(article.pubDate).toLocaleString("en-us", {
-              day:"numeric",
+            <p>${new Date(article.pubDate).toLocaleString("en-us", {
+              day: "numeric",
               weekday: "short",
               hour: "2-digit",
-              minute: "2-digit"
+              minute: "2-digit",
             })}</p>
             <hr />`
             );
