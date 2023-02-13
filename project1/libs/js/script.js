@@ -106,6 +106,7 @@ var currentBaseLayer = L.tileLayer(
       '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   }
 ).addTo(map);
+markers.addTo(map);
 
 // -------------------------------------GEOJSON------------------------------------
 
