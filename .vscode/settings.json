@@ -1,0 +1,27 @@
+{
+    "php.validate.executablePath": "C://xampp//php//php.exe",
+    "python.analysis.packageIndexDepths": [
+
+        {
+            "name": "sklearn",
+            "depth": 2
+        },
+        {
+            "name": "matplotlib",
+            "depth": 2
+        },
+        {
+            "name": "scipy",
+            "depth": 2
+        },
+        {
+            "name": "django",
+            "depth": 2
+        }
+    ],
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+"[php]": {
+    "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+}
+    
+}

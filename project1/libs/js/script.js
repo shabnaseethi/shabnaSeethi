@@ -8,12 +8,18 @@ var marker;
 var markers = [];
 markers = L.markerClusterGroup();
 
-var myIcon = L.icon({
-  iconUrl: "./libs/resources/black-plane.png",
-  iconSize: [40, 40],
-  iconAnchor: [20, 20],
-  popupAnchor: [-20, -20],
+var myIcon = L.ExtraMarkers.icon({
+  shape: "circle",
+  markerColor: "blue-dark",
+  prefix: "fa",
+  icon: "fa-plane",
+  iconColor: "#fff",
+  iconRotate: 0,
+  number: "",
+  svg: true,
 });
+
+// L.marker([51.941196,4.512291], {icon: redMarker}).addTo(map);
 
 const getAirports = (country) => {
   $.ajax({
@@ -63,6 +69,10 @@ var Stamen_Terrain = L.tileLayer(
     ext: "png",
   }
 );
+var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+});
 
 var osm_layer = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 8,
@@ -70,9 +80,10 @@ var osm_layer = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 });
 var baseLayers = {
-  Osm: osm_layer,
+  Street: osm_layer,
   Terrain: Stamen_Terrain,
-  imagery: WorldImagery,
+  Satellite: WorldImagery,
+ 
 };
 
 var map = L.map("map", {
@@ -184,6 +195,7 @@ const successCallback = (position) => {
     },
     success: function (result) {
       country = result.data;
+      $("#sel-country").val(country);
       getAirports(country);
       data(country);
     },
@@ -203,16 +215,10 @@ navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
 
 // ---------------------------------------------------ADDING COUNTRIES--------------------
 
-$("body").on("click", ".dropdown-menu .dropdown-item", function (e) {
+$("body").on("change", "#sel-country", function (e) {
   e.preventDefault();
+  country = $("#sel-country").val();
 
-  country = $(this).data("value");
-  var selText = $(this).text();
-
-  $(this)
-    .parents(".dropdown")
-    .find("#dropdownMenuButton")
-    .html(selText + ' <span class="caret"></span>');
   getAirports(country);
   data(country);
 });
@@ -237,10 +243,8 @@ $("document").ready(() => {
       countries.sort((a, b) => a.name.localeCompare(b.name));
 
       countries.forEach((item) =>
-        $(".dropdown-menu").append(
-          `<a class="dropdown-item" href="#" data-value=${item.code} target="_blank">` +
-            item.name +
-            "</a>"
+        $("#sel-country").append(
+          `<option id="country-value" value=${item.code}  >${item.name}</option>`
         )
       );
     },
@@ -267,22 +271,42 @@ $(".btn").click(() => {
 // ----------------------------------Country Details----------------------------------------
 
 L.easyButton("fa-circle-info", () => {
-  $("#myModal").modal("show");
-  $(".image-body img").attr(
-    "src",
-    `https://www.countryflagicons.com/FLAT/64/${country}.png`
-  );
-  $(".country").text(countryDetails.countryName);
-  $(".capital").text(countryDetails.capital);
-  $(".area").text(Number(countryDetails.areaInSqKm).toLocaleString() + " sqkm");
-  $(".currency").text(countryDetails.currencyCode);
-  $(".continent").text(countryDetails.continentName);
-  $(".population").text(Number(countryDetails.population).toLocaleString());
+  $.ajax({
+    url: "libs/php/getPlaces.php",
+    type: "POST",
+    dataType: "json",
+    data: {
+      country: country,
+    },
+    success: function (result) {
+      $(".modal-header img").attr(
+        "src",
+        `https://www.countryflagicons.com/FLAT/64/${country}.png`
+      );
+      $(".modal-title").text(countryDetails.countryName);
+
+      $(".capital").text(countryDetails.capital);
+      $(".area").text(
+        Number(countryDetails.areaInSqKm).toLocaleString() + " sqkm"
+      );
+      $(".currency").text(countryDetails.currencyCode);
+      $(".continent").text(countryDetails.continentName);
+      $(".population").text(Number(countryDetails.population).toLocaleString());
+      $(".places").text(result.join(", "));
+      $("#myModal").modal("show");
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      // your error code
+      console.log(textStatus);
+      console.log(errorThrown);
+    },
+  });
 }).addTo(map);
 
 // --------------------------------------Weather Data-------------------------------------------
 
 L.easyButton("fa-cloud", () => {
+
   $.ajax({
     url: "libs/php/getWeather.php",
     type: "POST",
@@ -291,21 +315,47 @@ L.easyButton("fa-cloud", () => {
       capital: countryDetails.capital.replace(" ", "%20"),
     },
     success: function (result) {
-      $("#weatherModal").modal("show");
-      $(".image").attr(
-        "src",
-        ` http://openweathermap.org/img/wn/${result.weather[0].icon}.png`
+     
+      $("#weatherModal .weather-capital").html(result.location.name);
+      $("#weatherModal .weather-time").html(
+        new Date(result.location.localtime).toLocaleString("en-us", {
+          day:"numeric",
+          weekday: "short",
+          hour: "2-digit",
+            minute: "2-digit",
+        }) 
       );
-      $(".location").text(result.name + "," + result.sys.country);
-      $(".feels").text(Math.floor(result.main.feels_like - 273) + " °C");
-      $(".min-temp").text(Math.floor(result.main.temp_min - 273) + " °C");
-      $(".max-temp").text(Math.floor(result.main.temp_max - 273) + " °C");
-      $(".temperature").html(Math.floor(result.main.temp - 273) + " °C");
-      $(".description").text(result.weather[0].description);
-      $(".pressure").text(result.main.pressure);
-      $(".wind").text(result.wind.speed + "m/s");
-      $(".humidity").text(result.main.humidity);
-      $(".date").html(new Date().toLocaleDateString());
+      $("#weatherModal .temp").html(result.current.feelslike_c + "°C");
+      $('.image-desc').empty();
+      $('.weather-forecast').empty();
+      $('.image-desc').append(`  <img
+      class="image"
+      src=${result.current.condition.icon}
+    />
+    <p class="desc">${result.current.condition.text}</p>`)
+      // $("#weatherModal .image").attr("src", ` `);
+      result.forecast.forecastday.map((item) => {
+      if(result.forecast.forecastday.indexOf(item)>0){
+        $(".weather-forecast").append(`<div class="col-sm">
+        <div class="forecast">
+          <h6 class="day">${new Date(item.date).toLocaleString("en-us", {
+            weekday: "short",
+            day: "numeric",
+          })}</h6>
+         <div class="desc-temp">
+          <img
+          class="img"
+          src=${item.day.condition.icon}
+        />
+       <div class="forecast-temp">
+        <h6 class="max"><strong>${item.day.maxtemp_c}°</strong></h6>
+        <h6 class="min"><strong>${item.day.mintemp_c}°</strong></h6>
+       </div>
+         </div>
+        </div>
+      </div>`);
+      }
+      });
     },
     error: function (jqXHR, textStatus, errorThrown) {
       // your error code
@@ -313,6 +363,8 @@ L.easyButton("fa-cloud", () => {
       console.log(errorThrown);
     },
   });
+
+  $("#weatherModal").modal("show");
 }).addTo(map);
 
 // ---------------------------------------------------WIKIPEDIA------------------------------------------
@@ -371,7 +423,13 @@ L.easyButton("fa-solid fa-newspaper", () => {
               <h5>
               ${article.title}
               </h5>
-              <p>${article.pubDate}</p>
+              <p>${ new Date(article.pubDate).toLocaleString("en-us", {
+                day:"numeric",
+                weekday: "short",
+                hour: "2-digit",
+                minute: "2-digit"
+              })}</p>
+              
               <hr />`
             );
           }
@@ -380,7 +438,12 @@ L.easyButton("fa-solid fa-newspaper", () => {
               `<a href=${article.link} target="_blank"><h5>
             ${article.title}
             </h5></a>
-            <p>${article.pubDate}</p>
+            <p>${ new Date(article.pubDate).toLocaleString("en-us", {
+              day:"numeric",
+              weekday: "short",
+              hour: "2-digit",
+              minute: "2-digit"
+            })}</p>
             <hr />`
             );
           }
@@ -413,44 +476,12 @@ L.easyButton("fa-solid fa-calendar-days", () => {
 
         const month = newDate.toLocaleString("default", { month: "long" });
         const date = newDate.getDate();
-        const year = newDate.getFullYear() + 1;
 
         $(".holidays table").append(
           `<tr>
-          <th scope="row">${date} ${month} ${year}</th>
+          <th scope="row">${date} ${month}</th>
           <td class="country">${holiday.name}</td>
         </tr>`
-        );
-      });
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      // your error code
-      console.log(textStatus);
-      console.log(errorThrown);
-    },
-  });
-}).addTo(map);
-
-// --------------------------Administrative Divisions-------------------------
-
-L.easyButton("fa-solid fa-location-dot", () => {
-  $(".places table").empty();
-  $.ajax({
-    url: "libs/php/getPlaces.php",
-    type: "POST",
-    dataType: "json",
-    data: {
-      country: country,
-    },
-    success: function (result) {
-      $("#placesModal").modal("show");
-
-      result.map((place) => {
-        $(".places table").append(
-          `<tr>
-           
-           <td>${place}</td>
-         </tr>`
         );
       });
     },

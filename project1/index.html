@@ -4,7 +4,13 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Gazetteer</title>
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="../project1//libs/resources/favicon.png"
+    />
     <link
       rel="stylesheet"
       href="../project1//libs/assets/bootstrap/css/bootstrap.min.css"
@@ -30,38 +36,24 @@
       href="../project1/libs/assets/leafletbutton/easy-button.css"
     />
 
+    <link
+      rel="stylesheet"
+      href="./libs/assets/leaflet_extra_markers/dist/css/leaflet.extra-markers.min.css"
+    />
+
     <link rel="stylesheet" href="../project1//libs/css/index.css" />
   </head>
   <body>
-    <!--------------------------------- NAVBAR ---------------------------------->
-
-    <nav class="navbar bg-body-tertiary navbar-fixed-top">
-      <div class="container-fluid">
-        <h3>Gazetteer</h3>
-
-        <form class="d-flex" role="search">
-          <div class="dropdown">
-            <button
-              class="btn btn-secondary dropdown-toggle"
-              type="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              id="dropdownMenuButton"
-            >
-              Select your Option
-            </button>
-            <div
-              class="dropdown-menu"
-              aria-labelledby="dropdownMenuButton"
-            ></div>
-          </div>
-        </form>
-        <h3></h3>
-      </div>
-    </nav>
-
     <!-- _____________________________________MAP_________________________________________ -->
-
+    <div class="menu">
+      <select
+        class="form-select"
+        aria-label="Default select example"
+        id="sel-country"
+      >
+        <option selected>Select Country</option>
+      </select>
+    </div>
     <div class="map-container">
       <div id="map"></div>
     </div>
@@ -73,50 +65,50 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Country Details</h5>
+            <img />
+            <div>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
           </div>
+
           <div class="modal-body">
-            <table class="table table-striped">
-              <thead>
-                <div class="image-body"><img /></div>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">Country</th>
-                  <td class="country">Otto</td>
-                </tr>
-                <tr>
-                  <th scope="row">Capital</th>
-                  <td class="capital"></td>
-                </tr>
-                <tr>
-                  <th scope="row">Area</th>
-                  <td class="area"></td>
-                </tr>
-                <tr>
-                  <th scope="row">Population</th>
-                  <td class="population"></td>
-                </tr>
-                <tr>
-                  <th scope="row">Currency</th>
-                  <td class="currency"></td>
-                </tr>
-                <tr>
-                  <th scope="row">Continent</th>
-                  <td class="continent"></td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead></thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">Capital</th>
+                    <td class="capital"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Area</th>
+                    <td class="area"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Population</th>
+                    <td class="population"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Currency</th>
+                    <td class="currency"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Continent</th>
+                    <td class="continent"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Administrative Divisions</th>
+                    <td class="places"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              id="modal-close"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
-          </div>
+          <div class="modal-footer"></div>
         </div>
       </div>
     </div>
@@ -127,60 +119,37 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Weather Details</h5>
-          </div>
-          <div class="modal-body">
-            <div class="details">
-              <div class="detail-header">
-                <h5 class="location"></h5>
-                <h6 class="description">Broken Clouds</h6>
+          
+              <div class="card-header">
+                <div class="place-name">
+                  <h2 class="weather-capital">Moscow</h2>
+                </div>
+                <h6 class="weather-time">TUES 07.00am</h6>
               </div>
-              <div><img class="image" /></div>
-            </div>
-            <div class="temp-container">
-              <h6 class="temperature">8 C</h6>
-              <div class="temp-details">
-                <table class="table table-striped">
-                  <tbody>
-                    <tr>
-                      <th scope="row">Feels like</th>
-                      <td class="feels">Otto</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Max temp</th>
-                      <td class="max-temp">Otto</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Min temp</th>
-                      <td class="min-temp">Otto</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Wind</th>
-                      <td class="wind">Otto</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Humidity</th>
-                      <td class="humidity">Otto</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Pressure</th>
-                      <td class="pressure">Otto</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+            
+            <div>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
             </div>
           </div>
-          <div class="modal-footer">
-            <div class="date">123/345</div>
-            <button
-              type="button"
-              class="btn btn-secondary"
-              id="modal-close"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
+          <div class="modal-body weather-body">
+            <div class="wrapper">
+              <div class="min-max">
+                <h2 class="temp">-32&#176;C</h2>
+              </div>
+              <div class="text-center mt-3 mb-4">
+                <div class="image-desc">
+                
+                </div>
+              </div>
+            </div>
+            <div class="container">
+              <div class="row weather-forecast">
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -192,24 +161,21 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Holidays</h5>
+            <h5>Holidays 2023</h5>
+            <div>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
           </div>
           <div class="modal-body">
-            <div class="holidays">
+            <div class="holidays overflow-scroll">
               <table class="table table-striped">
                 <tbody></tbody>
               </table>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              id="modal-close"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
           </div>
         </div>
       </div>
@@ -221,19 +187,16 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Latest News</h5>
+            <div>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
           </div>
           <div class="modal-body">
-            <div class="news"></div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              id="modal-close"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
+            <div class="news overflow-scroll"></div>
           </div>
         </div>
       </div>
@@ -246,45 +209,16 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">UNited Kingdom</h5>
+            <div>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
           </div>
           <div class="modal-body">
-            <div class="wiki"></div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              id="modal-close"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ---------------------------------------------PLaces------------------------------------------------- -->
-    <div id="placesModal" class="modal fade" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Administrative Divisions</h5>
-          </div>
-          <div class="places">
-            <table class="table table-striped">
-              <tbody></tbody>
-            </table>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              id="modal-close"
-              data-dismiss="modal"
-            >
-              Close
-            </button>
+            <div class="wiki overflow-scroll"></div>
           </div>
         </div>
       </div>
@@ -299,6 +233,7 @@
     <script src="../project1/libs/assets/marker_cluster/leaflet.markercluster.js"></script>
     <script src="../project1/libs/assets/marker_cluster/leaflet.markercluster-src.js"></script>
     <script src="../project1/libs/assets/leafletbutton/easy-button.js"></script>
+    <script src="./libs/assets/leaflet_extra_markers/dist/js/leaflet.extra-markers.min.js"></script>
 
     <script src="../project1/libs/assets/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../project1/libs/js/script.js"></script>
