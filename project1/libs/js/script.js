@@ -19,7 +19,7 @@ var myIcon = L.ExtraMarkers.icon({
   svg: true,
 });
 
-// L.marker([51.941196,4.512291], {icon: redMarker}).addTo(map);
+
 
 const getAirports = (country) => {
   $.ajax({
