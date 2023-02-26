@@ -1,0 +1,112 @@
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* toast */
+.confirm-toast{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+div.toast-body,.toast-header{
+    text-align: center;
+  
+}
+.fa-triangle-exclamation{
+    color:maroon;
+    font-size: 50px;
+}
+
+/* ----------------NAVBAR------------------ */
+
+.navbar-toggler-icon{
+    width:100px;
+    color:green;
+    font-size: 20px;
+    border: 1px solid green;
+    padding: 4px;
+    border-radius: 5px;
+    
+}
+.search{
+    margin-left: 10px;
+}
+#name-search{
+    margin-bottom: 20px;
+}
+#department,#location{
+    height: 40px;
+}
+#name-search:focus{
+    outline: none;
+}
+
+@media only screen and (max-width: 740px) {
+ 
+  }
+
+  /* ------------------------DROP DOWN--------------------- */
+
+.add-btn{
+    margin-right: 30px;
+}
+.fa-user-plus{
+    margin-right: 10px;
+}
+select.disabled {
+    pointer-events:none; /* No cursor */
+    background-color: #eee; /* Gray background */
+}
+
+  /* ---------------------------------------------RADIO GROUP------------------------------ */
+
+
+  div.selection-group{
+    width:100%;
+   
+  }
+
+  div.btn-group{
+    width:100%;
+  }
+ 
+
+  /* ---------------------------Table-------------------------- */
+
+  .fa-trash{
+    color:maroon;
+    cursor: pointer;
+  }
+  .fa-pen-to-square{
+    color:green;
+    cursor: pointer;
+
+  }
+
+
+  /* -------------------------modal box--------------- */
+  .droplist{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .droplist select{
+    width:50%;
+  }
+
+  /* ------------------------------------------Confirmtaion----------------- */
+
+  #confirmDel .modal-body{
+    text-align: center;
+  }
+  .button-grp{
+    margin: 30px 0;
+  }
+
+
+  /* ----------------------------ALERTS--------------------- */
+
+ 

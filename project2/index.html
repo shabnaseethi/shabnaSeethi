@@ -1,12 +1,651 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./libs/resources/directory.png" />
+    <title>Company Directory</title>
+
+    <link
+      rel="stylesheet"
+      href="./libs/resources/bootstrap/css/bootstrap.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="./libs/resources/fontawesome/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./libs/css/index.css" />
+  </head>
+  <body>
+    <nav class="navbar navbar-dark navigation">
+      <div class="container-fluid">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarToggleExternalContent"
+          aria-controls="navbarToggleExternalContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"
+            >Search<i class="fa-sharp fa-solid fa-magnifying-glass search"></i
+          ></span>
+        </button>
+        <div class="dropdown add-btn">
+          <button
+            class="btn btn-outline-success dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="fa-solid fa-user-plus"></i>ADD
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+              <button class="dropdown-item add-dept" type="button">
+                Department
+              </button>
+            </li>
+            <li>
+              <button class="dropdown-item add-user" type="button">User</button>
+            </li>
+            <li>
+              <button class="dropdown-item add-loc" type="button">
+                Location
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="collapse" id="navbarToggleExternalContent">
+      <div class="bg-light p-4">
+        <input
+          type="email"
+          class="form-control"
+          id="name-search"
+          aria-describedby="emailHelp"
+          placeholder="Enter first name"
+        />
+        <select
+          class="custom-select dept"
+          id="department"
+          id="inputGroupSelect04"
+        >
+          <option selected value="0">Select Department</option>
+        </select>
+
+        <select
+          class="custom-select location"
+          id="location"
+          id="inputGroupSelect04"
+        >
+          <option selected value="0">Select Location</option>
+        </select>
+        <input
+          class="btn btn-outline-success my-2 my-sm-0 search-btn"
+          type="submit"
+          value="Search"
+        />
+      </div>
+    </div>
+
+    <!-- -------------------------Checkbuttons----------------- -->
+    <div class="selection-group">
+      <div class="btn-group">
+        <input
+          type="radio"
+          class="btn-check emp-btn"
+          name="options"
+          id="option1"
+          autocomplete="off"
+          checked
+        />
+        <label class="btn btn-outline-primary" for="option1">Employee</label>
+
+        <input
+          type="radio"
+          class="btn-check dept-btn"
+          name="options"
+          id="option2"
+          autocomplete="off"
+        />
+        <label class="btn btn-outline-primary" for="option2">Departments</label>
+
+        <input
+          type="radio"
+          class="btn-check loc-btn"
+          name="options"
+          id="option3"
+          autocomplete="off"
+        />
+        <label class="btn btn-outline-primary" for="option3">Location</label>
+        <input
+          type="radio"
+          class="btn-check result-btn"
+          name="options"
+          id="option4"
+          autocomplete="off"
+          value="search"
+        />
+        <label class="btn btn-outline-primary" for="option4"
+          >Search Results</label
+        >
+      </div>
+    </div>
+
+    <!-- Table -->
+    <table class="table table-bordered table-hover employee-dtl"></table>
+    <table class="table table-bordered table-hover dept-dtl"></table>
+    <table class="table table-bordered table-hover loc-dtl"></table>
+    <table class="table table-primary table-hover search-dtl">
+      <thead>
+        <tr>
+          <th>Firstname</th>
+          <th>Lastname</th>
+          <th>Department</th>
+          <th>Location</th>
+          <th>Email</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <!-- ---------------------Modal Box  ADD USER ------------------------------->
+    <div
+      class="modal fade"
+      id="addUser"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="firstName" class="form-label">First Name</label>
+              <input type="email" class="form-control" id="firstName" />
+              <label for="lastName" class="form-label">Last Name</label>
+              <input type="email" class="form-control" id="lastName" />
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email address</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                placeholder="name@example.com"
+              />
+            </div>
+            <div class="mb-3 droplist">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Select Department</label
+              >
+              <select class="custom-select dept add-user-dept" id="new-dept"></select>
+            </div>
+            <div class="mb-3 droplist">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Location</label
+              >
+
+              <select
+                class="custom-select location disabled"
+                id="add-user-loc"
+              ></select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary addUser-btn">
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ------------------------------------MODAL BOX  ADD DEPARTMENT---------------------- -->
+
+    <div
+      class="modal fade"
+      id="addDept"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="email" class="form-label">Add New Department</label>
+              <input type="text" class="form-control" id="dept-new" />
+            </div>
+
+            <div class="mb-3 droplist">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Location</label
+              >
+
+              <select class="custom-select location" id="loc-new"></select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary addDept-btn">
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- -------------------------------------------------MODAL BOX ADD LOCATION---------------------------- -->
+
+    <div
+      class="modal fade"
+      id="addLoc"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="email" class="form-label">Add New Location</label>
+              <input type="text" class="form-control" id="location-new" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary addLoc-btn"
+              id="liveToastBtn"
+            >
+              Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  
+
+    <!-- -----------------------------------------------Edit USer------------------------------------- -->
+
+    <div
+      class="modal fade"
+      id="editUser"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="firstName" class="form-label">First Name</label>
+              <input
+                type="email"
+                class="form-control editFirst"
+                id="firstName"
+              />
+              <label for="lastName" class="form-label">Last Name</label>
+              <input type="email" class="form-control editLast" id="lastName" />
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email address</label>
+              <input
+                type="email"
+                class="form-control editEmail"
+                id="email"
+                placeholder="name@example.com"
+              />
+            </div>
+            <div class="mb-3 droplist">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Select Department</label
+              >
+              <select
+                class="custom-select dept editDept"
+                id="new-dept"
+              ></select>
+            </div>
+            <div class="mb-3 droplist">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Location</label
+              >
+
+              <select
+                class="custom-select location editLocation disabled"
+                id="new-location"
+              ></select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary new-btn update-user">
+              Update
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ----------------------------------------------------EDIT LOCATION---------------------------- -->
+
+    <div
+      class="modal fade"
+      id="editLocation"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3 droplist">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Location</label
+              >
+              <input type="text" class="form-control editLoc" id="edit-loc" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary new-btn update-location"
+            >
+              Update
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- --------------------------------EDIT DEPARTMENT-------------------------------------- -->
+    <div
+    class="modal fade"
+    id="editDeptt"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="email" class="form-label">Department</label>
+            <input type="text" class="form-control" id="deptt-edit" />
+          </div>
+
+          <div class="mb-3 droplist">
+            <label for="exampleFormControlInput1" class="form-label"
+              >Location</label
+            >
+
+            <select class="custom-select location" id="locc-edit"></select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary updateDept-btn">
+            Save changes
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <!-- ------------------------------Toasts------------------------ -->
+  <!-- -----------------------------Success Toasts--------------------------- -->
+  <div
+  class="position-fixed bottom-0 end-0 p-3 toast-success"
+  style="z-index: 11"
+  autohide="false"
+>
+  <div
+    id="liveToast"
+    class="toast hide toastSuccess"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
     
-</body>
+  >
+    <div class="toast-header bg-success">
+      <strong class="me-auto">Success</strong>
+
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="toast"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div class="toast-body"></div>
+  </div>
+</div>
+
+<!-- --------------------------------------------Danger Toasts-------------------------------- -->
+
+<div
+class="position-fixed bottom-0 end-0 p-3 toast-danger"
+style="z-index: 11"
+autohide="false"
+>
+<div
+  id="liveToast"
+  class="toast hide toastDanger"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+  
+>
+  <div class="toast-header bg-danger">
+    <strong class="me-auto">Success</strong>
+
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="toast"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="toast-body"></div>
+</div>
+</div>
+
+
+<!-- -----------------------------Information Toasts--------------------------- -->
+
+<div
+class="position-fixed top-0 start-50 translate-middle-x p-3 toast-info"
+style="z-index: 11"
+autohide="false"
+>
+<div
+  id="liveToast"
+  class="toast hide toastInfo"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+  
+>
+  <div class="toast-header bg-warning">
+    <strong class="me-auto"><i class="fa-sharp fa-solid fa-triangle-exclamation"></i></strong>
+
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="toast"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="toast-body"><h5></h5></div>
+</div>
+</div>
+
+<!-- ------------------Confirmation Delete User-------------------- -->
+<div
+class="position-fixed top-50 start-50 translate-middle p-3 toast-confirm"
+style="z-index: 11"
+autohide="false"
+>
+<div
+  id="liveToast"
+  class="toast hide userConfirm"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+  data-bs-autohide="false"
+>
+<div class="toast-body bg-warning">
+  Do you want to delete user and data?
+  <div class="mt-2 pt-2 border-top confirm-toast">
+    <button type="button" class="btn btn-primary btn-sm confirm">Confirm</button>
+    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Cancel</button>
+  </div>
+</div>
+</div>
+</div>
+
+
+<!-- ------------------Confirmation Delete Department-------------------- -->
+<div
+class="position-fixed top-50 start-50 translate-middle p-3 toast-confirm"
+style="z-index: 11"
+autohide="false"
+>
+<div
+  id="liveToast"
+  class="toast hide deptConfirm"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+  data-bs-autohide="false"
+>
+<div class="toast-body bg-warning">
+  Do you want to delete department and data?
+  <div class="mt-2 pt-2 border-top confirm-toast">
+    <button type="button" class="btn btn-primary btn-sm confirm">Confirm</button>
+    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Cancel</button>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ------------------Confirmation Delete Location-------------------- -->
+<div
+class="position-fixed top-50 start-50 translate-middle p-3 toast-confirm"
+style="z-index: 11"
+autohide="false"
+>
+<div
+  id="liveToast"
+  class="toast hide locConfirm"
+  role="alert"
+  aria-live="assertive"
+  aria-atomic="true"
+  data-bs-autohide="false"
+>
+<div class="toast-body bg-warning">
+  Do you want to delete the location and the details?
+  <div class="mt-2 pt-2 border-top confirm-toast">
+    <button type="button" class="btn btn-primary btn-sm confirm">Confirm</button>
+    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Cancel</button>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- --------------------------Confirmation update------------------ -->
+
+<div
+class="position-fixed top-50 start-50 translate-middle p-3 toast-update"
+style="z-index: 11"
+autohide="false"
+>
+<div
+id="liveToast"
+class="toast hide toastUpdate"
+role="alert"
+aria-live="assertive"
+aria-atomic="true"
+data-bs-autohide="false"
+>
+<div class="toast-header"> <h5>Do you want to update?</h5></div>
+<div class="toast-body bg-warning">
+<h6></h6>
+
+<div class="mt-2 pt-2 border-top confirm-toast">
+  <button type="button" class="btn btn-primary btn-sm toast-update-btn">Confirm</button>
+  <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Cancel</button>
+</div>
+</div>
+</div>
+</div>
+
+
+    <!-- -----------------------------------SCRIPTS------------------------------- -->
+
+    <script src="./libs/js/jquery-2.2.3.min.js"></script>
+    <script src="./libs/resources/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="./libs/js/script.js"></script>
+    
+  </body>
 </html>
