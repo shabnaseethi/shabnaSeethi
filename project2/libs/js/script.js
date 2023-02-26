@@ -1,5 +1,4 @@
-var department;
-var locationResult;
+
 var departmentID = 0;
 var locationID = 0;
 var locations = [];
@@ -46,11 +45,14 @@ const getAllPersonnel = () => {
           <th>Department</th>
           <th>Location</th>
           <th>Email</th>
+          <th >Delete</th>
+          <th >Edit</th>
         </tr>
       </thead>`);
+      $(".employee-dtl").append(`<tbody></tbody>`);
       result.data.forEach((employee) => {
-        $(".employee-dtl").append(`
-        <tbody> <tr>       
+        $(".employee-dtl tbody").append(`
+        <tr>       
         <td class="emp" data-id=${employee.id}>${employee.firstName}</td>
         <td class="lastname">${employee.lastName}</td>
         <td class="department_row" data-deptid=${employee.departmentID}>${employee.department}</td>
@@ -58,7 +60,7 @@ const getAllPersonnel = () => {
         <td>${employee.email}</td>
         <td><i class="fa-solid fa-trash delete-user"></i></td>
         <td><i class="fa-solid fa-pen-to-square edit-user"></i></td>
-      </tr></tbody>
+      </tr>
                 `);
       });
     },
@@ -83,6 +85,8 @@ const getAllLocation = () => {
       $(".loc-dtl").append(`   <thead class="thead-dark">
             <tr>
             <th>Location</th>
+            <th >Delete</th>
+          <th >Edit</th>
           </tr>
         </thead>`);
 
@@ -138,6 +142,8 @@ const getAllDepartments = () => {
         <tr>
         <th>Department</th>
         <th>Location</th>
+        <th >Delete</th>
+          <th >Edit</th>
       </tr>
     </thead>`);
       allDepartments = result.data.map((item) => item.department);
@@ -234,42 +240,43 @@ $(document).ready(() => {
   getAllPersonnel();
   getAllDepartments();
   getAllLocation();
-  $(".dept-dtl").hide();
-  $(".loc-dtl").hide();
-  $(".search-dtl").hide();
+  $(".dep-container").hide();
+  $(".loc-container").hide();
+  $(".search-container").hide();
 });
 
-// Radiobutton selection
+// ----------------------------------Radiobutton selection-----------------------------
 
 $(document).change(() => {
   if ($(".emp-btn").is(":checked")) {
-    $(".dept-dtl").hide();
-    $(".loc-dtl").hide();
-    $(".employee-dtl").show();
-    $(".search-dtl").hide();
+    $(".dep-container").hide();
+    $(".loc-container").hide();
+    $(".emp-container").show();
+    $(".search-container").hide();
   }
   if ($(".dept-btn").is(":checked")) {
-    $(".employee-dtl").hide();
-    $(".loc-dtl").hide();
-    $(".dept-dtl").show();
-    $(".search-dtl").hide();
+    $(".emp-container").hide();
+    $(".loc-container").hide();
+    $(".dep-container").show();
+    $(".search-container").hide();
   }
 
   if ($(".loc-btn").is(":checked")) {
-    $(".employee-dtl").hide();
-    $(".dept-dtl").hide();
-    $(".loc-dtl").show();
-    $(".search-dtl").hide();
+    $(".emp-container").hide();
+    $(".dep-container").hide();
+    $(".loc-container").show();
+    $(".search-container").hide();
   }
   if ($(".result-btn").is(":checked")) {
-    $(".employee-dtl").hide();
-    $(".dept-dtl").hide();
-    $(".loc-dtl").hide();
-    $(".search-dtl").show();
+    $(".emp-container").hide();
+    $(".dep-container").hide();
+    $(".loc-container").hide();
+    $(".search-container").show();
   }
 });
 
-// Drop down selection
+// --------------------------Drop down selection----------------------------------
+
 $("body").on("change", "#department", function (e) {
   e.preventDefault();
   departmentID = $("#department :selected").val();
@@ -282,11 +289,11 @@ $("body").on("change", "#location", function (e) {
   place = $("#location :selected").text();
 });
 
-// Search
+// --------------------------------Search-----------------------------------------
 
 $(".search-btn").click(() => {
   $(".result-btn").attr("checked", true);
-  $(".employee-dtl").hide();
+  $(".emp-container").hide();
   let firstName = $("#name-search").val();
   if (!firstName && locationID < 1 && departmentID < 1) {
     getAllPersonnel();
@@ -388,7 +395,7 @@ $(".search-btn").click(() => {
           infoToast.show();
         } else {
           $(".search-dtl tbody").empty();
-          $(".search-dtl").show();
+          $(".search-container").show();
           result.data.forEach((employee) => {
             $(".search-dtl tbody").append(`
             <tr>
@@ -425,7 +432,7 @@ $(".search-btn").click(() => {
       success: function (result) {
         if (result.data.length > 0) {
           $(".search-dtl tbody").empty();
-          $(".search-dtl").show();
+          $(".search-container").show();
           result.data.forEach((employee) => {
             $(".search-dtl").append(`
              <tr>
@@ -466,9 +473,8 @@ $(".search-btn").click(() => {
       success: function (result) {
         if (result.data.length > 0) {
           $(".search-dtl tbody").empty();
-          $(".search-dtl").show();
+          $(".search-container").show();
           result.data.forEach((employee) => {
-            console.log("xms");
             $(".search-dtl tbody").append(`
           <tr>
           <td class="emp" data-id=${employee.id}>${employee.firstName}</td>
@@ -509,7 +515,7 @@ $(".search-btn").click(() => {
       success: function (result) {
         if (result.data.length > 0) {
           $(".search-dtl tbody").empty();
-          $(".search-dtl").show();
+          $(".search-container").show();
           result.data.forEach((employee) => {
             $(".search-dtl tbody").append(`
           <tr>
@@ -552,7 +558,7 @@ $(".search-btn").click(() => {
         if (result.data.length > 0) {
           $(".search-dtl tbody").empty();
 
-          $(".search-dtl").show();
+          $(".search-container").show();
           result.data.forEach((employee) => {
             $(".search-dtl tbody").append(`
              <tr>
@@ -586,48 +592,53 @@ $(".search-btn").click(() => {
 
 // --------------------------------Add Department------------------------------
 
-$(".add-dept").click(() => {
-  $("#addDept").modal("show");
-  $(".addDept-btn").click(() => {
-    const dept = $("#addDept #dept-new").val();
-    const loc = $("#loc-new").val();
-    if (dept && loc) {
-      const deptExists = allDepartments.includes(dept);
-      if (!deptExists) {
-        $.ajax({
-          url: "libs/php/insertDepartment.php",
-          type: "GET",
-          dataType: "json",
-          data: {
-            name: dept,
-            locationID: loc,
-          },
-          success: function (result) {
-            if (result.status.code == 200) {
-              $("#addDept").modal("hide");
-              $(".toast-success .toast-body").html(
-                "New Department Added Successfully"
-              );
-              successToast.show();
-              $(".dept-dtl").empty();
-              getAllDepartments();
-            }
-          },
-          error: function (jqXHR, textStatus, errorThrown) {
-            // your error code
-            console.log(textStatus);
-            console.log(errorThrown);
-            console.log(jqXHR);
-          },
-        });
-      } else {
-        $("#addDept").modal("hide");
-        $(".toast-info .toast-body").html(`Department already exists`);
-        infoToast.show();
-      }
-    }
+$(".add-dept")
+  .unbind()
+  .click(() => {
+    $("#addDept #dept-new").val("");
+    $("#addDept").modal("show");
+    $(".addDept-btn")
+      .unbind()
+      .click(() => {
+        const dept = $("#addDept #dept-new").val();
+        const loc = $("#loc-new").val();
+        if (dept && loc) {
+          const deptExists = allDepartments.includes(dept);
+          if (!deptExists) {
+            $.ajax({
+              url: "libs/php/insertDepartment.php",
+              type: "GET",
+              dataType: "json",
+              data: {
+                name: dept,
+                locationID: loc,
+              },
+              success: function (result) {
+                if (result.status.code == 200) {
+                  $("#addDept").modal("hide");
+                  $(".toast-success .toast-body").html(
+                    "New Department Added Successfully"
+                  );
+                  successToast.show();
+                  $(".dept-dtl").empty();
+                  getAllDepartments();
+                }
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                // your error code
+                console.log(textStatus);
+                console.log(errorThrown);
+                console.log(jqXHR);
+              },
+            });
+          } else {
+            $("#addDept").modal("hide");
+            $(".toast-info .toast-body").html(`Department already exists`);
+            infoToast.show();
+          }
+        }
+      });
   });
-});
 
 // Delete Department
 
@@ -635,6 +646,7 @@ $("body").on("click", ".delete-dept", function (e) {
   e.preventDefault();
   var depID = $(this).closest("tr").find("td.deptt").data("depttid");
   deptConfirm.show();
+
   $(".deptConfirm .confirm")
     .unbind()
     .click(() => {
@@ -687,82 +699,59 @@ $("body").on("click", ".edit-dept", function (e) {
   $("#editDeptt").modal("show");
   $("#editDeptt #deptt-edit").val(value);
   $("#editDeptt #locc-edit").val(locId);
-  $(".updateDept-btn").click(() => {
-    $("#editDeptt").modal("hide");
+  $(".updateDept-btn")
+    .unbind()
+    .click(() => {
+      $("#editDeptt").modal("hide");
 
-    const result = getPersonnelByDepartment(deptID);
-    if (result.data) {
-      $(".toastUpdate .toast-body h6").html(
-        result.data.length + "  personnel(s) will be affected with this update."
-      );
+      const result = getPersonnelByDepartment(deptID);
+      if (result.data) {
+        $(".toastUpdate .toast-body h6").html(
+          result.data.length +
+            "  personnel(s) will be affected with this update."
+        );
 
-      updateToast.show();
-      $(".toast-update-btn").click(() => {
-        const newDeptt = $("#editDeptt #deptt-edit").val();
-        const newDepartment = $("#editDeptt #deptt-edit").text();
-        const newID = $("#editDeptt #locc-edit").val();
-        const deptExists = allDepartments.includes(newDeptt);
-        if (
-          (!deptExists && locId !== newID) ||
-          (newDepartment !== value && locId === newID) ||
-          (newDepartment === value && locId !== newID) ||
-          (newDepartment !== value && locId !== newID)
-        ) {
-          $.ajax({
-            url: "libs/php/updateDepartment.php",
-            type: "GET",
-            dataType: "json",
-            data: {
-              name: newDeptt,
-              id: deptID,
-              locationID: newID,
-            },
-            success: function (result) {
+        updateToast.show();
+        $(".toast-update-btn").click(() => {
+          const newDeptt = $("#editDeptt #deptt-edit").val();
+          const newDepartment = $("#editDeptt #deptt-edit").text();
+          const newID = $("#editDeptt #locc-edit").val();
+
+          if (newDepartment !== value) {
+            const deptExists = allDepartments.includes(newDeptt);
+            if (!deptExists) {
+              $.ajax({
+                url: "libs/php/updateDepartment.php",
+                type: "GET",
+                dataType: "json",
+                data: {
+                  name: newDeptt,
+                  id: deptID,
+                  locationID: newID,
+                },
+                success: function (result) {
+                  updateToast.hide();
+                  $(".toast-success .toast-body").html("Department Updated");
+                  successToast.show();
+                  $(".dept-dtl").empty();
+                  getAllDepartments();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                  // your error code
+                  console.log(textStatus);
+                  console.log(errorThrown);
+                  console.log(jqXHR);
+                },
+              });
+            } else {
               updateToast.hide();
-              $(".toast-success .toast-body").html("Department Updated");
-              successToast.show();
-              $(".dept-dtl").empty();
-              getAllDepartments();
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-              // your error code
-              console.log(textStatus);
-              console.log(errorThrown);
-              console.log(jqXHR);
-            },
-          });
-        } else {
-          console.log("update needed");
-          //       $.ajax({
-          //     url: "libs/php/updateDepartment.php",
-          //     type: "GET",
-          //     dataType: "json",
-          //     data: {
-          //       name: newDeptt,
-          //       id: deptID,
-          //       locationID: newID,
-          //     },
-          //     success: function (result) {
-          //       updateToast.hide();
-          //       $(".toast-success .toast-body").html("Department Updated");
-          //       successToast.show();
-          //       $(".dept-dtl").empty();
-          //       getAllDepartments();
-          //     },
-          //     error: function (jqXHR, textStatus, errorThrown) {
-          //       // your error code
-          //       console.log(textStatus);
-          //       console.log(errorThrown);
-          //       console.log(jqXHR);
-          //     },
-          //   });
-          //   updateToast.hide();
-          //   $(".toast-info .toast-body").html(`"${newDeptt}" already exists`);
-          //   infoToast.show();
-        }
-      });
-    }
-  });
+              $(".toast-info .toast-body").html(`"${newDeptt}" already exists`);
+              infoToast.show();
+            }
+          }
+        });
+      }
+    });
 });
 
 // -----------------------------------------------------PERSONNEL------------------------------------------------
@@ -791,48 +780,54 @@ $("body").on("change", "#addUser .add-user-dept", function (e) {
 // Add User
 $(".add-user").click(() => {
   $("#addUser").modal("show");
+  var newDept = $("#new-dept").val();
+  var newLoc = $("#new-location").val("");
+  var firstname = $("#firstName").val("");
+  var lastname = $("#lastName").val("");
+  var email = $("#email").val("");
+  $(".addUser-btn")
+    .unbind()
+    .click(() => {
+      newDept = $("#new-dept").val();
+      var departt = $(".add-user-dept option:selected").text();
+      newLoc = $("#new-location").val();
+      firstname = $("#firstName").val();
+      lastname = $("#lastName").val();
+      email = $("#email").val();
 
-  $(".addUser-btn").click(() => {
-    const newDept = $("#new-dept").val();
-    const departt = $(".add-user-dept option:selected").text();
-    const newLoc = $("#new-location").val();
-    const firstname = $("#firstName").val();
-    const lastname = $("#lastName").val();
-    const email = $("#email").val();
-
-    if (newDept && firstname && lastname && email) {
-      $.ajax({
-        url: "libs/php/insertPersonnel.php",
-        type: "GET",
-        dataType: "json",
-        data: {
-          firstname: firstname,
-          lastname: lastname,
-          email: email,
-          departmentID: newDept,
-          locationID: newLoc,
-          department: departt,
-        },
-        success: function (result) {
-          if (result.status.code == 200) {
-            $("#addUser").modal("hide");
-            $(".toast-success .toast-body").html(
-              "New Employee Added Successfully"
-            );
-            successToast.show();
-            $(".employee-dtl").empty();
-            getAllPersonnel();
-          }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          // your error code
-          console.log(textStatus);
-          console.log(errorThrown);
-          console.log(jqXHR);
-        },
-      });
-    }
-  });
+      if (newDept && firstname && lastname && email) {
+        $.ajax({
+          url: "libs/php/insertPersonnel.php",
+          type: "GET",
+          dataType: "json",
+          data: {
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            departmentID: newDept,
+            locationID: newLoc,
+            department: departt,
+          },
+          success: function (result) {
+            if (result.status.code == 200) {
+              $("#addUser").modal("hide");
+              $(".toast-success .toast-body").html(
+                "New Employee Added Successfully"
+              );
+              successToast.show();
+              $(".employee-dtl").empty();
+              getAllPersonnel();
+            }
+          },
+          error: function (jqXHR, textStatus, errorThrown) {
+            // your error code
+            console.log(textStatus);
+            console.log(errorThrown);
+            console.log(jqXHR);
+          },
+        });
+      }
+    });
 });
 
 // Delete User
@@ -919,56 +914,58 @@ $("body").on("click", ".edit-user", function (e) {
       $("#editUser .editDept").val(result.data.department[0].departmentID);
       $("#editUser .editLocation").val(result.data.department[0].locationID);
 
-      $(".update-user").click(() => {
-        const updatePersonnel = {
-          id: result.data.personnel[0].id,
-          firstName: $("#editUser .editFirst").val(),
-          lastName: $("#editUser .editLast").val(),
-          email: $("#editUser .editEmail").val(),
-          department: $("#editUser .editDept").val(),
-          location: $("#editUser .editLocation").val(),
-        };
-        if (
-          updatePersonnel.firstName &&
-          updatePersonnel.lastName &&
-          updatePersonnel.email &&
-          updatePersonnel.department &&
-          updatePersonnel.location
-        ) {
-          $.ajax({
-            url: "libs/php/updatePersonnel.php",
-            type: "GET",
-            dataType: "json",
-            data: {
-              id: updatePersonnel.id,
-              firstname: updatePersonnel.firstName,
-              lastname: updatePersonnel.lastName,
-              email: updatePersonnel.email,
-              departmentID: updatePersonnel.department,
-              locationID: updatePersonnel.location,
-            },
-            success: function (result) {
-              if (result.status.code == 200) {
-                $("#editUser").modal("hide");
+      $(".update-user")
+        .unbind()
+        .click(() => {
+          const updatePersonnel = {
+            id: result.data.personnel[0].id,
+            firstName: $("#editUser .editFirst").val(),
+            lastName: $("#editUser .editLast").val(),
+            email: $("#editUser .editEmail").val(),
+            department: $("#editUser .editDept").val(),
+            location: $("#editUser .editLocation").val(),
+          };
+          if (
+            updatePersonnel.firstName &&
+            updatePersonnel.lastName &&
+            updatePersonnel.email &&
+            updatePersonnel.department &&
+            updatePersonnel.location
+          ) {
+            $.ajax({
+              url: "libs/php/updatePersonnel.php",
+              type: "GET",
+              dataType: "json",
+              data: {
+                id: updatePersonnel.id,
+                firstname: updatePersonnel.firstName,
+                lastname: updatePersonnel.lastName,
+                email: updatePersonnel.email,
+                departmentID: updatePersonnel.department,
+                locationID: updatePersonnel.location,
+              },
+              success: function (result) {
+                if (result.status.code == 200) {
+                  $("#editUser").modal("hide");
 
-                $(".toast-success .toast-body").html(
-                  "Employee Details Updated Successfully"
-                );
+                  $(".toast-success .toast-body").html(
+                    "Employee Details Updated Successfully"
+                  );
 
-                successToast.show();
-                $(".employee-dtl").empty();
-                getAllPersonnel();
-              }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-              // your error code
-              console.log(textStatus);
-              console.log(errorThrown);
-              console.log(jqXHR);
-            },
-          });
-        }
-      });
+                  successToast.show();
+                  $(".employee-dtl").empty();
+                  getAllPersonnel();
+                }
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                // your error code
+                console.log(textStatus);
+                console.log(errorThrown);
+                console.log(jqXHR);
+              },
+            });
+          }
+        });
     },
     error: function (jqXHR, textStatus, errorThrown) {
       // your error code
@@ -982,44 +979,55 @@ $("body").on("click", ".edit-user", function (e) {
 //   ----------------------------------------------------LOCATION--------------------------------------------------
 
 // ADD LOCATION
-$(".add-loc").click(() => {
-  $("#addLoc").modal("show");
-  $(".addLoc-btn").click(() => {
-    const locationNew = $("#location-new").val();
-    const locExists = locations.includes(locationNew);
-    if (!locExists) {
-      $.ajax({
-        url: "libs/php/insertLocation.php",
-        type: "GET",
-        dataType: "json",
-        data: {
-          name: locationNew,
-        },
-        success: function (result) {
-          if (result.status.code == 200) {
+$(".add-loc")
+  .unbind()
+  .click(() => {
+    $("#addLoc").modal("show");
+    $("#location-new").val("");
+    $(".addLoc-btn")
+      .unbind()
+      .click(() => {
+        const locationNew = $("#location-new").val();
+        if (locationNew) {
+          const locExists = locations.includes(locationNew);
+          if (!locExists) {
+            $.ajax({
+              url: "libs/php/insertLocation.php",
+              type: "GET",
+              dataType: "json",
+              data: {
+                name: locationNew,
+              },
+              success: function (result) {
+                if (result.status.code == 200) {
+                  $("#addLoc").modal("hide");
+                  $(".loc-dtl").empty();
+                  $(".toast-success .toast-body").html(
+                    "New Location Added Successfully"
+                  );
+                  successToast.show();
+                  getAllLocation();
+                }
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                // your error code
+                console.log(textStatus);
+                console.log(errorThrown);
+                console.log(jqXHR);
+              },
+            });
+          } else {
             $("#addLoc").modal("hide");
-            $(".loc-dtl").empty();
-            $(".toast-success .toast-body").html(
-              "New Location Added Successfully"
-            );
-            successToast.show();
-            getAllLocation();
+            $(".toast-info .toast-body").html(`Location already exists`);
+            infoToast.show();
           }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-          // your error code
-          console.log(textStatus);
-          console.log(errorThrown);
-          console.log(jqXHR);
-        },
+        } else {
+          $(".toast-danger .toast-header strong").html("Enter Location Value");
+
+          dangerToast.show();
+        }
       });
-    } else {
-      $("#addLoc").modal("hide");
-      $(".toast-info .toast-body").html(`Location already exists`);
-      infoToast.show();
-    }
   });
-});
 
 // Delete LOcation
 $("body").on("click", ".delete-loc", function (e) {
@@ -1034,9 +1042,7 @@ $("body").on("click", ".delete-loc", function (e) {
 
       if (result.data.length > 0) {
         locConfirm.hide();
-        $(".toast-danger .toast-header strong").html(
-          "Cannot delete Department"
-        );
+        $(".toast-danger .toast-header strong").html("Cannot delete Location");
         $(".toast-danger .toast-body").html(
           result.data.length + " department record(s) related to this location"
         );
@@ -1079,6 +1085,7 @@ $("body").on("click", ".edit-loc", function (e) {
   var locID = $(this).closest("tr").find("td.location-r").data("id");
 
   $("#editLocation").modal("show");
+
   $("#editLocation #edit-loc").val(value);
   $(".update-location")
     .unbind()
@@ -1093,40 +1100,42 @@ $("body").on("click", ".edit-loc", function (e) {
         );
 
         updateToast.show();
-        $(".toast-update-btn").click(() => {
-          const newLoc = $("#edit-loc").val();
-          const locationExists = locations.includes(newLoc);
+        $(".toast-update-btn")
+          .unbind()
+          .click(() => {
+            const newLoc = $("#edit-loc").val();
+            const locationExists = locations.includes(newLoc);
 
-          if (!locationExists) {
-            $.ajax({
-              url: "libs/php/updateLocation.php",
-              type: "GET",
-              dataType: "json",
-              data: {
-                name: newLoc,
-                id: locID,
-              },
-              success: function (result) {
-                updateToast.hide();
+            if (!locationExists) {
+              $.ajax({
+                url: "libs/php/updateLocation.php",
+                type: "GET",
+                dataType: "json",
+                data: {
+                  name: newLoc,
+                  id: locID,
+                },
+                success: function (result) {
+                  updateToast.hide();
 
-                $(".toast-success .toast-body").html("Location Updated");
-                successToast.show();
-                $(".loc-dtl").empty();
-                getAllLocation();
-              },
-              error: function (jqXHR, textStatus, errorThrown) {
-                // your error code
-                console.log(textStatus);
-                console.log(errorThrown);
-                console.log(jqXHR);
-              },
-            });
-          } else {
-            updateToast.hide();
-            $(".toast-info .toast-body").html(`"${newLoc}" already exists`);
-            infoToast.show();
-          }
-        });
+                  $(".toast-success .toast-body").html("Location Updated");
+                  successToast.show();
+                  $(".loc-dtl").empty();
+                  getAllLocation();
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                  // your error code
+                  console.log(textStatus);
+                  console.log(errorThrown);
+                  console.log(jqXHR);
+                },
+              });
+            } else {
+              updateToast.hide();
+              $(".toast-info .toast-body").html(`"${newLoc}" already exists`);
+              infoToast.show();
+            }
+          });
       }
     });
 });

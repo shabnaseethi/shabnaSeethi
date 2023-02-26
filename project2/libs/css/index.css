@@ -2,6 +2,7 @@ body{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+
 }
 
 /* toast */
@@ -22,17 +23,16 @@ div.toast-body,.toast-header{
 /* ----------------NAVBAR------------------ */
 
 .navbar-toggler-icon{
-    width:100px;
+  min-width: fit-content;
+  
     color:green;
-    font-size: 20px;
     border: 1px solid green;
-    padding: 4px;
+    padding: 5px;
     border-radius: 5px;
     
 }
-.search{
-    margin-left: 10px;
-}
+
+
 #name-search{
     margin-bottom: 20px;
 }
@@ -84,6 +84,37 @@ select.disabled {
     cursor: pointer;
 
   }
+div.container{
+  margin-top: 40px;
+}
+div.loc-container,div.dep-container{
+  min-width: 60%;
+  min-height: 100vh;
+}
+ .tbl-container{
+
+  max-width: fit-content;
+  max-height: fit-content;
+ }
+ .tbl-fixed{
+  overflow-x: scroll;
+  overflow-y: scroll;
+  height: fit-content;
+  max-height: 80vh;
+ }
+ table{
+  min-width: max-content;
+  border-collapse: separate;
+ }
+
+ table thead{
+  position: sticky;
+  top:0px;
+  background-color: teal;
+  border:1px solid white;
+  font-size: 16px;
+ }
+
 
 
   /* -------------------------modal box--------------- */
@@ -95,6 +126,13 @@ select.disabled {
   }
   .droplist select{
     width:50%;
+  }
+
+  input[type="text"]{
+    text-transform: capitalize;
+  }
+  input[type="email"]{
+    text-transform: lowercase;
   }
 
   /* ------------------------------------------Confirmtaion----------------- */

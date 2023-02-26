@@ -30,9 +30,8 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"
-            >Search<i class="fa-sharp fa-solid fa-magnifying-glass search"></i
-          ></span>
+          <span class="navbar-toggler-icon "
+            >Search</span>
         </button>
         <div class="dropdown add-btn">
           <button
@@ -138,21 +137,52 @@
     </div>
 
     <!-- Table -->
-    <table class="table table-bordered table-hover employee-dtl"></table>
-    <table class="table table-bordered table-hover dept-dtl"></table>
-    <table class="table table-bordered table-hover loc-dtl"></table>
-    <table class="table table-primary table-hover search-dtl">
-      <thead>
-        <tr>
-          <th>Firstname</th>
-          <th>Lastname</th>
-          <th>Department</th>
-          <th>Location</th>
-          <th>Email</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+
+    <div class="container tbl-container emp-container">
+      <div class="row tbl-fixed">
+        <table
+          class="table table-bordered table-striped table-hover employee-dtl"
+        ></table>
+      </div>
+    </div>
+
+    <div class="container tbl-container dep-container">
+      <div class="row tbl-fixed">
+        <table
+        class="table table-bordered table-striped table-responsive table-hover dept-dtl"
+      ></table>
+      </div>
+    </div>
+
+
+    <div class="container tbl-container loc-container">
+      <div class="row tbl-fixed">
+        <table
+        class="table table-bordered table-striped table-responsive table-hover loc-dtl"
+      ></table>
+      </div>
+    </div>
+
+    <div class="container tbl-container search-container">
+      <div class="row tbl-fixed">
+        <table
+          class="table table-bordered table-striped table-hover search-dtl"
+        >
+          <thead>
+            <tr>
+              <th>Firstname</th>
+              <th>Lastname</th>
+              <th>Department</th>
+              <th>Location</th>
+              <th>Email</th>
+              <th>Delete</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
 
     <!-- ---------------------Modal Box  ADD USER ------------------------------->
     <div
@@ -165,7 +195,9 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalLabel">
+              ADD NEW PERSONNEL
+            </h5>
             <button
               type="button"
               class="btn-close"
@@ -176,9 +208,9 @@
           <div class="modal-body">
             <div class="mb-3">
               <label for="firstName" class="form-label">First Name</label>
-              <input type="email" class="form-control" id="firstName" />
+              <input type="text" class="form-control" id="firstName" />
               <label for="lastName" class="form-label">Last Name</label>
-              <input type="email" class="form-control" id="lastName" />
+              <input type="text" class="form-control" id="lastName" />
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Email address</label>
@@ -193,7 +225,10 @@
               <label for="exampleFormControlInput1" class="form-label"
                 >Select Department</label
               >
-              <select class="custom-select dept add-user-dept" id="new-dept"></select>
+              <select
+                class="custom-select dept add-user-dept"
+                id="new-dept"
+              ></select>
             </div>
             <div class="mb-3 droplist">
               <label for="exampleFormControlInput1" class="form-label"
@@ -227,7 +262,9 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalLabel">
+              ADD NEW DEPARTMENT
+            </h5>
             <button
               type="button"
               class="btn-close"
@@ -270,7 +307,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalLabel">ADD NEW LOCATION</h5>
             <button
               type="button"
               class="btn-close"
@@ -297,8 +334,6 @@
       </div>
     </div>
 
-  
-
     <!-- -----------------------------------------------Edit USer------------------------------------- -->
 
     <div
@@ -311,7 +346,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalLabel">EDIT PERSONNEL</h5>
             <button
               type="button"
               class="btn-close"
@@ -380,7 +415,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalLabel">EDIT LOCATION</h5>
             <button
               type="button"
               class="btn-close"
@@ -408,244 +443,272 @@
       </div>
     </div>
 
-
     <!-- --------------------------------EDIT DEPARTMENT-------------------------------------- -->
     <div
-    class="modal fade"
-    id="editDeptt"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label for="email" class="form-label">Department</label>
-            <input type="text" class="form-control" id="deptt-edit" />
+      class="modal fade"
+      id="editDeptt"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">EDIT DEPARTMENT</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="email" class="form-label">Department</label>
+              <input type="text" class="form-control" id="deptt-edit" />
+            </div>
 
-          <div class="mb-3 droplist">
-            <label for="exampleFormControlInput1" class="form-label"
-              >Location</label
-            >
+            <div class="mb-3 droplist">
+              <label for="exampleFormControlInput1" class="form-label"
+                >Location</label
+              >
 
-            <select class="custom-select location" id="locc-edit"></select>
+              <select class="custom-select location" id="locc-edit"></select>
+            </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary updateDept-btn">
-            Save changes
-          </button>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary updateDept-btn">
+              Save changes
+            </button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
 
     <!-- ------------------------------Toasts------------------------ -->
-  <!-- -----------------------------Success Toasts--------------------------- -->
-  <div
-  class="position-fixed bottom-0 end-0 p-3 toast-success"
-  style="z-index: 11"
-  autohide="false"
->
-  <div
-    id="liveToast"
-    class="toast hide toastSuccess"
-    role="alert"
-    aria-live="assertive"
-    aria-atomic="true"
-    
-  >
-    <div class="toast-header bg-success">
-      <strong class="me-auto">Success</strong>
+    <!-- -----------------------------Success Toasts--------------------------- -->
+    <div
+      class="position-fixed bottom-0 end-0 p-3 toast-success"
+      style="z-index: 11"
+      autohide="false"
+    >
+      <div
+        id="liveToast"
+        class="toast hide toastSuccess"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="toast-header bg-success">
+          <strong class="me-auto">Success</strong>
 
-      <button
-        type="button"
-        class="btn-close"
-        data-bs-dismiss="toast"
-        aria-label="Close"
-      ></button>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="toast-body"></div>
+      </div>
     </div>
-    <div class="toast-body"></div>
-  </div>
-</div>
 
-<!-- --------------------------------------------Danger Toasts-------------------------------- -->
+    <!-- --------------------------------------------Danger Toasts-------------------------------- -->
 
-<div
-class="position-fixed bottom-0 end-0 p-3 toast-danger"
-style="z-index: 11"
-autohide="false"
->
-<div
-  id="liveToast"
-  class="toast hide toastDanger"
-  role="alert"
-  aria-live="assertive"
-  aria-atomic="true"
-  
->
-  <div class="toast-header bg-danger">
-    <strong class="me-auto">Success</strong>
+    <div
+      class="position-fixed bottom-0 end-0 p-3 toast-danger"
+      style="z-index: 11"
+      autohide="false"
+    >
+      <div
+        id="liveToast"
+        class="toast hide toastDanger"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="toast-header bg-danger">
+          <strong class="me-auto">Success</strong>
 
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="toast"
-      aria-label="Close"
-    ></button>
-  </div>
-  <div class="toast-body"></div>
-</div>
-</div>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="toast-body"></div>
+      </div>
+    </div>
 
+    <!-- -----------------------------Information Toasts--------------------------- -->
 
-<!-- -----------------------------Information Toasts--------------------------- -->
+    <div
+      class="position-fixed top-0 start-50 translate-middle-x p-3 toast-info"
+      style="z-index: 11"
+      autohide="false"
+    >
+      <div
+        id="liveToast"
+        class="toast hide toastInfo"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <div class="toast-header bg-warning">
+          <strong class="me-auto"
+            ><i class="fa-sharp fa-solid fa-triangle-exclamation"></i
+          ></strong>
 
-<div
-class="position-fixed top-0 start-50 translate-middle-x p-3 toast-info"
-style="z-index: 11"
-autohide="false"
->
-<div
-  id="liveToast"
-  class="toast hide toastInfo"
-  role="alert"
-  aria-live="assertive"
-  aria-atomic="true"
-  
->
-  <div class="toast-header bg-warning">
-    <strong class="me-auto"><i class="fa-sharp fa-solid fa-triangle-exclamation"></i></strong>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="toast"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="toast-body"><h5></h5></div>
+      </div>
+    </div>
 
-    <button
-      type="button"
-      class="btn-close"
-      data-bs-dismiss="toast"
-      aria-label="Close"
-    ></button>
-  </div>
-  <div class="toast-body"><h5></h5></div>
-</div>
-</div>
+    <!-- ------------------Confirmation Delete User-------------------- -->
+    <div
+      class="position-fixed top-50 start-50 translate-middle p-3 toast-confirm"
+      style="z-index: 11"
+      autohide="false"
+    >
+      <div
+        id="liveToast"
+        class="toast hide userConfirm"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+        data-bs-autohide="false"
+      >
+        <div class="toast-body bg-warning">
+          Do you want to delete user and data?
+          <div class="mt-2 pt-2 border-top confirm-toast">
+            <button type="button" class="btn btn-primary btn-sm confirm">
+              Confirm
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary btn-sm"
+              data-bs-dismiss="toast"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<!-- ------------------Confirmation Delete User-------------------- -->
-<div
-class="position-fixed top-50 start-50 translate-middle p-3 toast-confirm"
-style="z-index: 11"
-autohide="false"
->
-<div
-  id="liveToast"
-  class="toast hide userConfirm"
-  role="alert"
-  aria-live="assertive"
-  aria-atomic="true"
-  data-bs-autohide="false"
->
-<div class="toast-body bg-warning">
-  Do you want to delete user and data?
-  <div class="mt-2 pt-2 border-top confirm-toast">
-    <button type="button" class="btn btn-primary btn-sm confirm">Confirm</button>
-    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Cancel</button>
-  </div>
-</div>
-</div>
-</div>
+    <!-- ------------------Confirmation Delete Department-------------------- -->
+    <div
+      class="position-fixed top-50 start-50 translate-middle p-3 toast-confirm"
+      style="z-index: 11"
+      autohide="false"
+    >
+      <div
+        id="liveToast"
+        class="toast hide deptConfirm"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+        data-bs-autohide="false"
+      >
+        <div class="toast-body bg-warning">
+          Do you want to delete department and data?
+          <div class="mt-2 pt-2 border-top confirm-toast">
+            <button type="button" class="btn btn-primary btn-sm confirm">
+              Confirm
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary btn-sm"
+              data-bs-dismiss="toast"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <!-- ------------------Confirmation Delete Location-------------------- -->
+    <div
+      class="position-fixed top-50 start-50 translate-middle p-3 toast-confirm"
+      style="z-index: 11"
+      autohide="false"
+    >
+      <div
+        id="liveToast"
+        class="toast hide locConfirm"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+        data-bs-autohide="false"
+      >
+        <div class="toast-body bg-warning">
+          Do you want to delete the location and the details?
+          <div class="mt-2 pt-2 border-top confirm-toast">
+            <button type="button" class="btn btn-primary btn-sm confirm">
+              Confirm
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary btn-sm"
+              data-bs-dismiss="toast"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<!-- ------------------Confirmation Delete Department-------------------- -->
-<div
-class="position-fixed top-50 start-50 translate-middle p-3 toast-confirm"
-style="z-index: 11"
-autohide="false"
->
-<div
-  id="liveToast"
-  class="toast hide deptConfirm"
-  role="alert"
-  aria-live="assertive"
-  aria-atomic="true"
-  data-bs-autohide="false"
->
-<div class="toast-body bg-warning">
-  Do you want to delete department and data?
-  <div class="mt-2 pt-2 border-top confirm-toast">
-    <button type="button" class="btn btn-primary btn-sm confirm">Confirm</button>
-    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Cancel</button>
-  </div>
-</div>
-</div>
-</div>
+    <!-- --------------------------Confirmation update------------------ -->
 
-<!-- ------------------Confirmation Delete Location-------------------- -->
-<div
-class="position-fixed top-50 start-50 translate-middle p-3 toast-confirm"
-style="z-index: 11"
-autohide="false"
->
-<div
-  id="liveToast"
-  class="toast hide locConfirm"
-  role="alert"
-  aria-live="assertive"
-  aria-atomic="true"
-  data-bs-autohide="false"
->
-<div class="toast-body bg-warning">
-  Do you want to delete the location and the details?
-  <div class="mt-2 pt-2 border-top confirm-toast">
-    <button type="button" class="btn btn-primary btn-sm confirm">Confirm</button>
-    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Cancel</button>
-  </div>
-</div>
-</div>
-</div>
+    <div
+      class="position-fixed top-50 start-50 translate-middle p-3 toast-update"
+      style="z-index: 11"
+      autohide="false"
+    >
+      <div
+        id="liveToast"
+        class="toast hide toastUpdate"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+        data-bs-autohide="false"
+      >
+        <div class="toast-header"><h5>Do you want to update?</h5></div>
+        <div class="toast-body bg-warning">
+          <h6></h6>
 
-<!-- --------------------------Confirmation update------------------ -->
-
-<div
-class="position-fixed top-50 start-50 translate-middle p-3 toast-update"
-style="z-index: 11"
-autohide="false"
->
-<div
-id="liveToast"
-class="toast hide toastUpdate"
-role="alert"
-aria-live="assertive"
-aria-atomic="true"
-data-bs-autohide="false"
->
-<div class="toast-header"> <h5>Do you want to update?</h5></div>
-<div class="toast-body bg-warning">
-<h6></h6>
-
-<div class="mt-2 pt-2 border-top confirm-toast">
-  <button type="button" class="btn btn-primary btn-sm toast-update-btn">Confirm</button>
-  <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="toast">Cancel</button>
-</div>
-</div>
-</div>
-</div>
-
+          <div class="mt-2 pt-2 border-top confirm-toast">
+            <button
+              type="button"
+              class="btn btn-primary btn-sm toast-update-btn"
+            >
+              Confirm
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary btn-sm"
+              data-bs-dismiss="toast"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- -----------------------------------SCRIPTS------------------------------- -->
 
     <script src="./libs/js/jquery-2.2.3.min.js"></script>
     <script src="./libs/resources/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="./libs/js/script.js"></script>
-    
   </body>
 </html>
