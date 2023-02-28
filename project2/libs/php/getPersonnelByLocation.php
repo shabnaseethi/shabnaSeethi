@@ -38,7 +38,7 @@
 	// $query = $conn->prepare('SELECT id, name, locationID FROM department WHERE locationID =  ?');
 
 
-	$query = $conn->prepare('SELECT personnel.id,location.id as locationID,department.id as departmentID,location.name as location,department.name,personnel.firstName,personnel.lastName,personnel.email FROM department INNER JOIN personnel on department.locationID=? AND department.id=personnel.departmentID INNER JOIN location on location.id = department.locationID ORDER BY personnel.firstName');
+	$query = $conn->prepare('SELECT  personnel.id,location.id as locationID,department.id as departmentID,location.name as location,department.name,personnel.firstName,personnel.lastName,personnel.email FROM department INNER JOIN personnel on department.locationID=? AND department.id=personnel.departmentID INNER JOIN location on location.id = department.locationID ORDER BY personnel.firstName');
     
 
 	$query->bind_param("i", $_REQUEST['id']);

@@ -35,7 +35,7 @@
 	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
 	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
 
-	$query = $conn->prepare('SELECT department.id, department.name,location.name as location FROM location INNER JOIN department on location.id=? AND department.locationID = location.id ');
+	$query = $conn->prepare('SELECT (select count(*) FROM department WHERE department.locationID = location.id) AS count,department.id, department.name,location.name as location FROM location INNER JOIN department on location.id=? AND department.locationID = location.id ');
 
 	$query->bind_param("i", $_REQUEST['id']);
 

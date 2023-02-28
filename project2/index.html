@@ -30,8 +30,10 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon "
-            >Search</span>
+          <!-- <span class="navbar-toggler-icon "
+            >Search</span> -->
+            <i class="fa fa-search" aria-hidden="true"></i>
+            SEARCH
         </button>
         <div class="dropdown add-btn">
           <button
@@ -63,7 +65,7 @@
     <div class="collapse" id="navbarToggleExternalContent">
       <div class="bg-light p-4">
         <input
-          type="email"
+          type="text"
           class="form-control"
           id="name-search"
           aria-describedby="emailHelp"
@@ -101,7 +103,7 @@
           name="options"
           id="option1"
           autocomplete="off"
-          checked
+          
         />
         <label class="btn btn-outline-primary" for="option1">Employee</label>
 
@@ -122,17 +124,6 @@
           autocomplete="off"
         />
         <label class="btn btn-outline-primary" for="option3">Location</label>
-        <input
-          type="radio"
-          class="btn-check result-btn"
-          name="options"
-          id="option4"
-          autocomplete="off"
-          value="search"
-        />
-        <label class="btn btn-outline-primary" for="option4"
-          >Search Results</label
-        >
       </div>
     </div>
 
@@ -142,7 +133,20 @@
       <div class="row tbl-fixed">
         <table
           class="table table-bordered table-striped table-hover employee-dtl"
-        ></table>
+        >
+        <thead class="thead-dark">
+          <tr>
+          <th>Firstname</th>
+          <th>Lastname</th>
+          <th>Department</th>
+          <th>Location</th>
+          <th>Email</th>
+          <th >Delete</th>
+          <th >Edit</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
       </div>
     </div>
 
@@ -162,28 +166,6 @@
       ></table>
       </div>
     </div>
-
-    <div class="container tbl-container search-container">
-      <div class="row tbl-fixed">
-        <table
-          class="table table-bordered table-striped table-hover search-dtl"
-        >
-          <thead>
-            <tr>
-              <th>Firstname</th>
-              <th>Lastname</th>
-              <th>Department</th>
-              <th>Location</th>
-              <th>Email</th>
-              <th>Delete</th>
-              <th>Edit</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-      </div>
-    </div>
-
     <!-- ---------------------Modal Box  ADD USER ------------------------------->
     <div
       class="modal fade"

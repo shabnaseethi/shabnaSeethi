@@ -22,19 +22,30 @@ div.toast-body,.toast-header{
 
 /* ----------------NAVBAR------------------ */
 
-.navbar-toggler-icon{
+.navbar-toggler i{
+  margin-right: 5px;
+}
+.navbar-toggler{
   min-width: fit-content;
-  
+  font-weight: 400;
+  font-size: 1rem;
     color:green;
     border: 1px solid green;
-    padding: 5px;
-    border-radius: 5px;
+    padding: 10px;
     
 }
+.navbar-toggler:hover{
+  background-color: #198754;
+  border-color: #198754;
+  color:white;
+  transition: ease-in-out;
+}
+
 
 
 #name-search{
     margin-bottom: 20px;
+    max-width:400px;
 }
 #department,#location{
     height: 40px;
@@ -110,7 +121,8 @@ div.loc-container,div.dep-container{
  table thead{
   position: sticky;
   top:0px;
-  background-color: teal;
+  background-color:rgb(84, 84, 247);
+  color: white;
   border:1px solid white;
   font-size: 16px;
  }

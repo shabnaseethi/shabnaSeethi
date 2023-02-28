@@ -36,10 +36,11 @@
 	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
 
 	// $query = $conn->prepare('SELECT id, name, locationID FROM department WHERE locationID =  ?');
-
+	
 
     $query = $conn->prepare('SELECT personnel.id,location.id as locationID,department.id as departmentID,location.name as location,department.name,personnel.firstName,personnel.lastName,personnel.email
-    FROM department INNER JOIN personnel on personnel.firstName=? AND department.id=personnel.departmentID INNER JOIN location on department.locationID=location.id');
+    FROM department INNER JOIN personnel on personnel.firstName LIKE ?
+	AND department.id=personnel.departmentID INNER JOIN location on department.locationID=location.id');
     
 
 	$query->bind_param("s", $_REQUEST['name']);

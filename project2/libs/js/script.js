@@ -1,4 +1,3 @@
-
 var departmentID = 0;
 var locationID = 0;
 var locations = [];
@@ -38,18 +37,8 @@ const getAllPersonnel = () => {
     type: "GET",
     dataType: "json",
     success: function (result) {
-      $(".employee-dtl").append(`   <thead class="thead-dark">
-          <tr>
-          <th>Firstname</th>
-          <th>Lastname</th>
-          <th>Department</th>
-          <th>Location</th>
-          <th>Email</th>
-          <th >Delete</th>
-          <th >Edit</th>
-        </tr>
-      </thead>`);
-      $(".employee-dtl").append(`<tbody></tbody>`);
+      $(".employee-dtl tbody").empty();
+      $(".emp-container").show();
       result.data.forEach((employee) => {
         $(".employee-dtl tbody").append(`
         <tr>       
@@ -242,7 +231,6 @@ $(document).ready(() => {
   getAllLocation();
   $(".dep-container").hide();
   $(".loc-container").hide();
-  $(".search-container").hide();
 });
 
 // ----------------------------------Radiobutton selection-----------------------------
@@ -252,26 +240,17 @@ $(document).change(() => {
     $(".dep-container").hide();
     $(".loc-container").hide();
     $(".emp-container").show();
-    $(".search-container").hide();
   }
   if ($(".dept-btn").is(":checked")) {
     $(".emp-container").hide();
     $(".loc-container").hide();
     $(".dep-container").show();
-    $(".search-container").hide();
   }
 
   if ($(".loc-btn").is(":checked")) {
     $(".emp-container").hide();
     $(".dep-container").hide();
     $(".loc-container").show();
-    $(".search-container").hide();
-  }
-  if ($(".result-btn").is(":checked")) {
-    $(".emp-container").hide();
-    $(".dep-container").hide();
-    $(".loc-container").hide();
-    $(".search-container").show();
   }
 });
 
@@ -290,10 +269,11 @@ $("body").on("change", "#location", function (e) {
 });
 
 // --------------------------------Search-----------------------------------------
-
-$(".search-btn").click(() => {
-  $(".result-btn").attr("checked", true);
-  $(".emp-container").hide();
+$("body").on("click", ".search-btn", function (e) {
+  $(".emp-btn").attr("checked", true);
+  $(".emp-container").show();
+  $(".dep-container").hide();
+  $(".loc-container").hide();
   let firstName = $("#name-search").val();
   if (!firstName && locationID < 1 && departmentID < 1) {
     getAllPersonnel();
@@ -305,19 +285,19 @@ $(".search-btn").click(() => {
       type: "GET",
       dataType: "json",
       data: {
-        name: firstName,
+        name: firstName + "%",
       },
       success: function (result) {
         if (result.data.length == 0) {
-          $(".search-dtl tbody").empty();
+          $(".employee-dtl tbody").empty();
 
           $(".toast-info .toast-body h5").html(`NO RECORD FOUND!!`);
           infoToast.show();
         } else {
-          $(".search-dtl tbody").empty();
-          $(".search-dtl").show();
+          $(".employee-dtl tbody").empty();
+          $(".emp-container").show();
           result.data.forEach((employee) => {
-            $(".search-dtl tbody").append(`
+            $(".employee-dtl tbody").append(`
             <tr>
             <td class="emp" data-id=${employee.id}>${employee.firstName}</td>
             <td class="lastname">${employee.lastName}</td>
@@ -340,7 +320,7 @@ $(".search-btn").click(() => {
     });
   }
   //   search with location
-  if (!firstName && locationID && departmentID < 1) {
+  if (!firstName && locationID > 0 && departmentID < 1) {
     $.ajax({
       url: "libs/php/getPersonnelByLocation.php",
       type: "GET",
@@ -350,14 +330,15 @@ $(".search-btn").click(() => {
       },
       success: function (result) {
         if (result.data.length == 0) {
-          $(".search-dtl tbody").empty();
+          console.log("with loc");
+          $(".employee-dtl tbody").empty();
           $(".toast-info .toast-body").html(`NO RECORD FOUND!!`);
           infoToast.show();
         } else {
-          $(".search-dtl tbody").empty();
-          $(".search-dtl").show();
+          $(".employee-dtl tbody").empty();
+          $(".emp-container").show();
           result.data.forEach((employee) => {
-            $(".search-dtl tbody").append(`
+            $(".employee-dtl tbody").append(`
               <tr>
               <td class="emp" data-id=${employee.id}>${employee.firstName}</td>
               <td class="lastname">${employee.lastName}</td>
@@ -380,7 +361,7 @@ $(".search-btn").click(() => {
     });
   }
   // Search with department
-  if (!firstName && locationID < 1 && departmentID) {
+  if (!firstName && locationID < 1 && departmentID > 0) {
     $.ajax({
       url: "libs/php/getPersonnelByDepartment.php",
       type: "GET",
@@ -390,14 +371,15 @@ $(".search-btn").click(() => {
       },
       success: function (result) {
         if (result.data.length == 0) {
-          $(".search-dtl tbody").empty();
+         
+          $(".employee-dtl tbody").empty();
           $(".toast-info .toast-body").html(`NO RECORD FOUND!!`);
           infoToast.show();
         } else {
-          $(".search-dtl tbody").empty();
-          $(".search-container").show();
+          $(".employee-dtl tbody").empty();
+          $(".emp-container").show();
           result.data.forEach((employee) => {
-            $(".search-dtl tbody").append(`
+            $(".employee-dtl tbody").append(`
             <tr>
             <td class="emp" data-id=${employee.id}>${employee.firstName}</td>
             <td class="lastname">${employee.lastName}</td>
@@ -427,14 +409,14 @@ $(".search-btn").click(() => {
       dataType: "json",
       data: {
         id: locationID,
-        name: firstName,
+        name: firstName + "%",
       },
       success: function (result) {
         if (result.data.length > 0) {
-          $(".search-dtl tbody").empty();
-          $(".search-container").show();
+          $(".employee-dtl tbody").empty();
+          $(".emp-container").show();
           result.data.forEach((employee) => {
-            $(".search-dtl").append(`
+            $(".employee-dtl tbody").append(`
              <tr>
             <td class="emp" data-id=${employee.id}>${employee.firstName}</td>
             <td class="lastname">${employee.lastName}</td>
@@ -447,7 +429,7 @@ $(".search-btn").click(() => {
                     `);
           });
         } else {
-          $(".search-dtl tbody").empty();
+          $(".employee-dtl tbody").empty();
           $(".toast-info .toast-body").html(`NO RECORD FOUND!!`);
           infoToast.show();
         }
@@ -468,14 +450,14 @@ $(".search-btn").click(() => {
       dataType: "json",
       data: {
         id: departmentID,
-        name: firstName,
+        name: firstName + "%",
       },
       success: function (result) {
         if (result.data.length > 0) {
-          $(".search-dtl tbody").empty();
-          $(".search-container").show();
+          $(".employee-dtl tbody").empty();
+          $(".emp-container").show();
           result.data.forEach((employee) => {
-            $(".search-dtl tbody").append(`
+            $(".employee-dtl tbody").append(`
           <tr>
           <td class="emp" data-id=${employee.id}>${employee.firstName}</td>
           <td class="lastname">${employee.lastName}</td>
@@ -488,7 +470,7 @@ $(".search-btn").click(() => {
                   `);
           });
         } else {
-          $(".search-dtl tbody").empty();
+          $(".employee-dtl tbody").empty();
           $(".toast-info .toast-body").html(`NO RECORD FOUND!!`);
           infoToast.show();
         }
@@ -514,10 +496,10 @@ $(".search-btn").click(() => {
       },
       success: function (result) {
         if (result.data.length > 0) {
-          $(".search-dtl tbody").empty();
-          $(".search-container").show();
+          $(".employee-dtl tbody").empty();
+          $(".emp-container").show();
           result.data.forEach((employee) => {
-            $(".search-dtl tbody").append(`
+            $(".employee-dtl tbody").append(`
           <tr>
           <td class="emp" data-id=${employee.id}>${employee.firstName}</td>
           <td class="lastname">${employee.lastName}</td>
@@ -530,7 +512,7 @@ $(".search-btn").click(() => {
                   `);
           });
         } else {
-          $(".search-dtl tbody").empty();
+          $(".employee-dtl tbody").empty();
           $(".toast-info .toast-body").html(`NO RECORD FOUND!!`);
           infoToast.show();
         }
@@ -544,23 +526,23 @@ $(".search-btn").click(() => {
     });
   }
   //   Search with firstname,departmentand location
-  if (firstName && locationID && departmentID) {
+  if (firstName && locationID > 0 && departmentID > 0) {
     $.ajax({
       url: "libs/php/getPersonnelBySearch.php",
       type: "GET",
       dataType: "json",
       data: {
         depID: departmentID,
-        name: firstName,
+        name: firstName + "%",
         locID: locationID,
       },
       success: function (result) {
         if (result.data.length > 0) {
-          $(".search-dtl tbody").empty();
+          $(".employee-dtl tbody").empty();
 
-          $(".search-container").show();
+          $(".emp-container").show();
           result.data.forEach((employee) => {
-            $(".search-dtl tbody").append(`
+            $(".employee-dtl tbody").append(`
              <tr>
               <td class="emp" data-id=${employee.id}>${employee.firstName}</td>
               <td class="lastname">${employee.lastName}</td>
@@ -573,7 +555,7 @@ $(".search-btn").click(() => {
                       `);
           });
         } else {
-          $(".search-dtl tbody").empty();
+          $(".employee-dtl tbody").empty();
           $(".toast-info .toast-body").html(`NO RECORD FOUND!!`);
           infoToast.show();
         }
@@ -651,13 +633,15 @@ $("body").on("click", ".delete-dept", function (e) {
     .unbind()
     .click(() => {
       const result = getPersonnelByDepartment(depID);
+
       if (result.data.length > 0) {
         deptConfirm.hide();
         $(".toast-danger .toast-header strong").html(
           "Cannot delete Department"
         );
         $(".toast-danger .toast-body").html(
-          result.data.length + " employee record(s) related to this department"
+          result.data[0].count +
+            " employee record(s) related to this department"
         );
         dangerToast.show();
       } else {
@@ -707,7 +691,7 @@ $("body").on("click", ".edit-dept", function (e) {
       const result = getPersonnelByDepartment(deptID);
       if (result.data) {
         $(".toastUpdate .toast-body h6").html(
-          result.data.length +
+          result.data[0].count +
             "  personnel(s) will be affected with this update."
         );
 
@@ -1039,12 +1023,12 @@ $("body").on("click", ".delete-loc", function (e) {
     .unbind()
     .click(() => {
       const result = getPersonnelByLocation(value);
-
       if (result.data.length > 0) {
         locConfirm.hide();
         $(".toast-danger .toast-header strong").html("Cannot delete Location");
         $(".toast-danger .toast-body").html(
-          result.data.length + " department record(s) related to this location"
+          result.data[0].count +
+            " department record(s) related to this location"
         );
         dangerToast.show();
       } else {
@@ -1095,7 +1079,7 @@ $("body").on("click", ".edit-loc", function (e) {
       const result = getPersonnelByLocation(locID);
       if (result.data) {
         $(".toastUpdate .toast-body h6").html(
-          result.data.length +
+          result.data[0].count +
             "  department(s) will be affected with this update."
         );
 
