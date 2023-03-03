@@ -35,7 +35,7 @@
 	// SQL statement accepts parameters and so is prepared to avoid SQL injection.
 	// $_REQUEST used for development / debugging. Remember to change to $_POST for production
 
-	$query = $conn->prepare('SELECT id, name, locationID FROM department WHERE name =  ?');
+	$query = $conn->prepare('SELECT count(id) as count,id, name, locationID FROM department WHERE name =  ?');
 
 	$query->bind_param("s", $_REQUEST['name']);
 

@@ -99,13 +99,17 @@ div.container{
   margin-top: 40px;
 }
 div.loc-container,div.dep-container{
-  min-width: 60%;
+ max-width: 60%;
   min-height: 100vh;
 }
+
  .tbl-container{
 
   max-width: fit-content;
   max-height: fit-content;
+ }
+ .tbl-container .icon{
+  text-align: center;
  }
  .tbl-fixed{
   overflow-x: scroll;
@@ -139,14 +143,6 @@ div.loc-container,div.dep-container{
   .droplist select{
     width:50%;
   }
-
-  input[type="text"]{
-    text-transform: capitalize;
-  }
-  input[type="email"]{
-    text-transform: lowercase;
-  }
-
   /* ------------------------------------------Confirmtaion----------------- */
 
   #confirmDel .modal-body{

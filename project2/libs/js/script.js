@@ -2,6 +2,7 @@ var departmentID = 0;
 var locationID = 0;
 var locations = [];
 var allDepartments = [];
+var allPersonnel = [];
 
 // Success Toast
 
@@ -39,16 +40,22 @@ const getAllPersonnel = () => {
     success: function (result) {
       $(".employee-dtl tbody").empty();
       $(".emp-container").show();
+      allPersonnel = result.data.map(({ id, firstName, lastName }) => ({
+        id,
+        firstName,
+        lastName,
+      }));
+
       result.data.forEach((employee) => {
         $(".employee-dtl tbody").append(`
         <tr>       
         <td class="emp" data-id=${employee.id}>${employee.firstName}</td>
         <td class="lastname">${employee.lastName}</td>
-        <td class="department_row" data-deptid=${employee.departmentID}>${employee.department}</td>
-        <td class="location_row" data-locid=${employee.locationID}>${employee.location}</td>
-        <td>${employee.email}</td>
-        <td><i class="fa-solid fa-trash delete-user"></i></td>
-        <td><i class="fa-solid fa-pen-to-square edit-user"></i></td>
+        <td class="department_row d-none d-lg-table-cell" data-deptid=${employee.departmentID}>${employee.department}</td>
+        <td class="location_row d-none d-lg-table-cell" data-locid=${employee.locationID}>${employee.location}</td>
+         <td class=" d-none d-lg-table-cell d-md-table-cell">${employee.email}</td>
+        <td class="icon" ><i class="fa-solid fa-trash delete-user"></i></td>
+        <td class="icon"><i class="fa-solid fa-pen-to-square edit-user"></i></td>
       </tr>
                 `);
       });
@@ -74,17 +81,18 @@ const getAllLocation = () => {
       $(".loc-dtl").append(`   <thead class="thead-dark">
             <tr>
             <th>Location</th>
-            <th >Delete</th>
-          <th >Edit</th>
+            <th ></th>
+          <th ></th>
           </tr>
         </thead>`);
 
-      locations = result.data.map((item) => item.name);
+      locations = result.data.map(({ id, name }) => ({ id, name }));
+
       result.data.forEach((location) => {
         $(".loc-dtl").append(` <tbody> <tr>       
                 <td class="location-r" data-id=${location.id}>${location.name}</td>
-                <td><i class="fa-solid fa-trash delete-loc"></i></td>
-                <td><i class="fa-solid fa-pen-to-square edit-loc"></i></td>
+                <td class="icon"><i class="fa-solid fa-trash delete-loc"></i></td>
+                <td class="icon"><i class="fa-solid fa-pen-to-square edit-loc"></i></td>
               </tr></tbody>
                   `);
       });
@@ -131,17 +139,20 @@ const getAllDepartments = () => {
         <tr>
         <th>Department</th>
         <th>Location</th>
-        <th >Delete</th>
-          <th >Edit</th>
+        <th ></th>
+          <th ></th>
       </tr>
     </thead>`);
-      allDepartments = result.data.map((item) => item.department);
+      allDepartments = result.data.map(({ departmentID, department }) => ({
+        departmentID,
+        department,
+      }));
       result.data.map((department) => {
         $(".dept-dtl").append(` <tbody> <tr>       
                 <td class="deptt" data-depttid=${department.departmentID}>${department.department}</td>
                 <td class="locc" data-locid=${department.locationID}>${department.location}</td>
-                <td><i class="fa-solid fa-trash delete-dept"></i></td>
-                <td><i class="fa-solid fa-pen-to-square edit-dept"></i></td>
+                <td class="icon"><i class="fa-solid fa-trash delete-dept"></i></td>
+                <td class="icon"><i class="fa-solid fa-pen-to-square edit-dept"></i></td>
               </tr></tbody>
                   `);
       });
@@ -270,6 +281,7 @@ $("body").on("change", "#location", function (e) {
 
 // --------------------------------Search-----------------------------------------
 $("body").on("click", ".search-btn", function (e) {
+  e.preventDefault();
   $(".emp-btn").attr("checked", true);
   $(".emp-container").show();
   $(".dep-container").hide();
@@ -371,7 +383,6 @@ $("body").on("click", ".search-btn", function (e) {
       },
       success: function (result) {
         if (result.data.length == 0) {
-         
           $(".employee-dtl tbody").empty();
           $(".toast-info .toast-body").html(`NO RECORD FOUND!!`);
           infoToast.show();
@@ -525,7 +536,7 @@ $("body").on("click", ".search-btn", function (e) {
       },
     });
   }
-  //   Search with firstname,departmentand location
+  //   Search with firstname,department and location
   if (firstName && locationID > 0 && departmentID > 0) {
     $.ajax({
       url: "libs/php/getPersonnelBySearch.php",
@@ -574,19 +585,24 @@ $("body").on("click", ".search-btn", function (e) {
 
 // --------------------------------Add Department------------------------------
 
-$(".add-dept")
-  .unbind()
-  .click(() => {
-    $("#addDept #dept-new").val("");
-    $("#addDept").modal("show");
-    $(".addDept-btn")
-      .unbind()
-      .click(() => {
-        const dept = $("#addDept #dept-new").val();
-        const loc = $("#loc-new").val();
-        if (dept && loc) {
-          const deptExists = allDepartments.includes(dept);
-          if (!deptExists) {
+$(".add-dept").click(() => {
+  $("#addDept #dept-new").val("");
+  $("#addDept").modal("show");
+  $("#addDeptForm").unbind().on("submit", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const dept = $("#addDept #dept-new").val();
+    const loc = $("#loc-new").val();
+    if (dept && loc) {
+      $.ajax({
+        url: "libs/php/getDepartmentByName.php",
+        type: "GET",
+        dataType: "json",
+        data: {
+          name: dept,
+        },
+        success: function (result) {
+          if (result.data[0].count < 1) {
             $.ajax({
               url: "libs/php/insertDepartment.php",
               type: "GET",
@@ -618,33 +634,42 @@ $(".add-dept")
             $(".toast-info .toast-body").html(`Department already exists`);
             infoToast.show();
           }
-        }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          // your error code
+          console.log(textStatus);
+          console.log(errorThrown);
+          console.log(jqXHR);
+        },
       });
+    }
   });
+});
 
 // Delete Department
 
 $("body").on("click", ".delete-dept", function (e) {
   e.preventDefault();
   var depID = $(this).closest("tr").find("td.deptt").data("depttid");
-  deptConfirm.show();
 
-  $(".deptConfirm .confirm")
-    .unbind()
-    .click(() => {
-      const result = getPersonnelByDepartment(depID);
+  const result = getPersonnelByDepartment(depID);
+  if (result.data.length > 0) {
+    deptConfirm.hide();
+    $(".toast-danger .toast-header strong").html("Cannot delete Department");
+    $(".toast-danger .toast-body").html(
+      result.data[0].count + " employee record(s) related to this department"
+    );
+    dangerToast.show();
+  } else {
+    const dept = allDepartments.filter((item) => item.departmentID == depID);
 
-      if (result.data.length > 0) {
-        deptConfirm.hide();
-        $(".toast-danger .toast-header strong").html(
-          "Cannot delete Department"
-        );
-        $(".toast-danger .toast-body").html(
-          result.data[0].count +
-            " employee record(s) related to this department"
-        );
-        dangerToast.show();
-      } else {
+    $(".deptConfirm .toast-body span").html(`<b>${dept[0].department}</b>`);
+    deptConfirm.show();
+
+    $(".deptConfirm .confirm")
+      .unbind()
+      .click((e) => {
+        e.preventDefault();
         $.ajax({
           url: "libs/php/deleteDepartmentByID.php",
           type: "GET",
@@ -668,89 +693,31 @@ $("body").on("click", ".delete-dept", function (e) {
             console.log(jqXHR);
           },
         });
-      }
-    });
+      });
+  }
 });
 
 // Edit department
 
 $("body").on("click", ".edit-dept", function (e) {
-  e.preventDefault();
-  var value = $(this).closest("tr").find(".deptt").text();
   var deptID = $(this).closest("tr").find("td.deptt").data("depttid");
-  var locId = $(this).closest("tr").find("td.locc").data("locid");
+  var value = $("#editDeptt #deptt-edit").val("");
 
-  $("#editDeptt").modal("show");
-  $("#editDeptt #deptt-edit").val(value);
-  $("#editDeptt #locc-edit").val(locId);
-  $(".updateDept-btn")
-    .unbind()
-    .click(() => {
-      $("#editDeptt").modal("hide");
-
-      const result = getPersonnelByDepartment(deptID);
-      if (result.data) {
-        $(".toastUpdate .toast-body h6").html(
-          result.data[0].count +
-            "  personnel(s) will be affected with this update."
-        );
-
-        updateToast.show();
-        $(".toast-update-btn").click(() => {
-          const newDeptt = $("#editDeptt #deptt-edit").val();
-          const newDepartment = $("#editDeptt #deptt-edit").text();
-          const newID = $("#editDeptt #locc-edit").val();
-
-          if (newDepartment !== value) {
-            const deptExists = allDepartments.includes(newDeptt);
-            if (!deptExists) {
-              $.ajax({
-                url: "libs/php/updateDepartment.php",
-                type: "GET",
-                dataType: "json",
-                data: {
-                  name: newDeptt,
-                  id: deptID,
-                  locationID: newID,
-                },
-                success: function (result) {
-                  updateToast.hide();
-                  $(".toast-success .toast-body").html("Department Updated");
-                  successToast.show();
-                  $(".dept-dtl").empty();
-                  getAllDepartments();
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                  // your error code
-                  console.log(textStatus);
-                  console.log(errorThrown);
-                  console.log(jqXHR);
-                },
-              });
-            } else {
-              updateToast.hide();
-              $(".toast-info .toast-body").html(`"${newDeptt}" already exists`);
-              infoToast.show();
-            }
-          }
-        });
-      }
-    });
-});
-
-// -----------------------------------------------------PERSONNEL------------------------------------------------
-
-$("body").on("change", "#addUser .add-user-dept", function (e) {
-  const val = $("#addUser .add-user-dept").val();
+  var loccID;
   $.ajax({
-    url: "libs/php/getLocationByDept.php",
+    url: "libs/php/getDepartmentByID.php",
     type: "GET",
     dataType: "json",
     data: {
-      id: val,
+      id: deptID,
     },
     success: function (result) {
-      $("#addUser #add-user-loc").val(result.data[0].locationID);
+      loccID = result.data[0].locationID;
+
+      value = $("#editDeptt #deptt-edit").val(result.data[0].name);
+
+      $("#editDeptt #locc-edit").val(result.data[0].locationID);
+      $("#editDeptt").modal("show");
     },
     error: function (jqXHR, textStatus, errorThrown) {
       // your error code
@@ -759,19 +726,110 @@ $("body").on("change", "#addUser .add-user-dept", function (e) {
       console.log(jqXHR);
     },
   });
+
+  $("#editDeptForm").unbind().on("submit", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    $("#editDeptt").modal("hide");
+    const newDeptt = $("#editDeptt #deptt-edit").val();
+    const newID = $("#editDeptt #locc-edit").val();
+
+    const resultNew = getPersonnelByDepartment(deptID);
+
+    if (newDeptt === value && newID == loccID) {
+      $("#addDept").modal("hide");
+      $(".toast-info .toast-body").html(`"${newDeptt}" already exists`);
+      infoToast.show();
+      updateToast.hide();
+    } else {
+      $.ajax({
+        url: "libs/php/getDepartmentByName.php",
+        type: "GET",
+        dataType: "json",
+        data: {
+          name: newDeptt,
+        },
+        success: function (result) {
+          if (
+            (result.data[0].name === value &&
+              result.data[0].locationID != newID) ||
+            result.data[0].count < 1
+          ) {
+            if (resultNew.data.length > 0) {
+              $(".toast-update .toastUpdate .toast-body h6").html(
+                resultNew.data[0].count +
+                  "  personnel(s) will be affected with this update."
+              );
+            } else {
+              $(".toast-update .toastUpdate .toast-body h6").html(
+                "0  personnel(s) will be affected with this update."
+              );
+            }
+            updateToast.show();
+            $(".toast-update-btn")
+              .unbind()
+              .click((e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                $.ajax({
+                  url: "libs/php/updateDepartment.php",
+                  type: "GET",
+                  dataType: "json",
+                  data: {
+                    name: newDeptt,
+                    id: deptID,
+                    locationID: newID,
+                  },
+                  success: function (result) {
+                    updateToast.hide();
+                    $(".toast-success .toast-body").html("Department Updated");
+                    successToast.show();
+                    $(".dept-dtl").empty();
+                    getAllDepartments();
+                  },
+                  error: function (jqXHR, textStatus, errorThrown) {
+                    // your error code
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                    console.log(jqXHR);
+                  },
+                });
+              });
+          } else {
+            $("#addDept").modal("hide");
+            $(".toast-info .toast-body").html(
+              `Department <b>${newDeptt}</b> already exists`
+            );
+            infoToast.show();
+          }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          // your error code
+          console.log(textStatus);
+          console.log(errorThrown);
+          console.log(jqXHR);
+        },
+      });
+    }
+  });
 });
 
+// -----------------------------------------------------PERSONNEL------------------------------------------------
 // Add User
 $(".add-user").click(() => {
   $("#addUser").modal("show");
   var newDept = $("#new-dept").val();
-  var newLoc = $("#new-location").val("");
   var firstname = $("#firstName").val("");
   var lastname = $("#lastName").val("");
   var email = $("#email").val("");
-  $(".addUser-btn")
+  
+
+  $("#addUserForm")
     .unbind()
-    .click(() => {
+    .on("submit", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
       newDept = $("#new-dept").val();
       var departt = $(".add-user-dept option:selected").text();
       newLoc = $("#new-location").val();
@@ -789,7 +847,6 @@ $(".add-user").click(() => {
             lastname: lastname,
             email: email,
             departmentID: newDept,
-            locationID: newLoc,
             department: departt,
           },
           success: function (result) {
@@ -799,7 +856,6 @@ $(".add-user").click(() => {
                 "New Employee Added Successfully"
               );
               successToast.show();
-              $(".employee-dtl").empty();
               getAllPersonnel();
             }
           },
@@ -819,11 +875,16 @@ $(".add-user").click(() => {
 $("body").on("click", ".delete-user", function (e) {
   e.preventDefault();
   var value = $(this).closest("tr").find("td.emp").data("id");
+  const empDel = allPersonnel.filter((item) => item.id == value);
 
+  $(".userConfirm .toast-body span").html(
+    `<b>${empDel[0].firstName} ${empDel[0].lastName}</b>`
+  );
   userConfirm.show();
   $(".userConfirm .confirm")
     .unbind()
     .click(() => {
+      e.preventDefault();
       $.ajax({
         url: "libs/php/deletePersonnel.php",
         type: "GET",
@@ -837,7 +898,7 @@ $("body").on("click", ".delete-user", function (e) {
           );
           userConfirm.hide();
           successToast.show();
-          $(".employee-dtl").empty();
+
           getAllPersonnel();
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -855,32 +916,8 @@ $("body").on("click", ".edit-user", function (e) {
   e.preventDefault();
 
   var deptID = $(this).closest("tr").find("td.department_row").data("deptid");
-  var locID = $(this).closest("tr").find("td.location_row").data("locid");
+  // var locID = $(this).closest("tr").find("td.location_row").data("locid");
   var empID = $(this).closest("tr").find("td.emp").data("id");
-
-  $("body").on("change", "#editUser .editDept", function (e) {
-    e.preventDefault();
-
-    const newDept = $("#editUser .editDept").val();
-
-    $.ajax({
-      url: "libs/php/getLocationByDept.php",
-      type: "GET",
-      dataType: "json",
-      data: {
-        id: newDept,
-      },
-      success: function (result) {
-        $("#editUser .editLocation").val(result.data[0].locationID).change();
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-        // your error code
-        console.log(textStatus);
-        console.log(errorThrown);
-        console.log(jqXHR);
-      },
-    });
-  });
 
   $.ajax({
     url: "libs/php/getPersonnelByID.php",
@@ -892,29 +929,30 @@ $("body").on("click", ".edit-user", function (e) {
     },
     success: function (result) {
       $("#editUser").modal("show");
+    
       $("#editUser .editFirst").val(result.data.personnel[0].firstName);
       $("#editUser .editLast").val(result.data.personnel[0].lastName);
       $("#editUser .editEmail").val(result.data.personnel[0].email);
-      $("#editUser .editDept").val(result.data.department[0].departmentID);
-      $("#editUser .editLocation").val(result.data.department[0].locationID);
+      $("#editUser .editDept").val(result.data.personnel[0].departmentID);
 
-      $(".update-user")
+      $("#editUserForm")
         .unbind()
-        .click(() => {
+        .on("submit", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
           const updatePersonnel = {
             id: result.data.personnel[0].id,
             firstName: $("#editUser .editFirst").val(),
             lastName: $("#editUser .editLast").val(),
             email: $("#editUser .editEmail").val(),
             department: $("#editUser .editDept").val(),
-            location: $("#editUser .editLocation").val(),
           };
+
           if (
             updatePersonnel.firstName &&
             updatePersonnel.lastName &&
             updatePersonnel.email &&
-            updatePersonnel.department &&
-            updatePersonnel.location
+            updatePersonnel.department
           ) {
             $.ajax({
               url: "libs/php/updatePersonnel.php",
@@ -926,7 +964,6 @@ $("body").on("click", ".edit-user", function (e) {
                 lastname: updatePersonnel.lastName,
                 email: updatePersonnel.email,
                 departmentID: updatePersonnel.department,
-                locationID: updatePersonnel.location,
               },
               success: function (result) {
                 if (result.status.code == 200) {
@@ -937,7 +974,7 @@ $("body").on("click", ".edit-user", function (e) {
                   );
 
                   successToast.show();
-                  $(".employee-dtl").empty();
+
                   getAllPersonnel();
                 }
               },
@@ -965,52 +1002,57 @@ $("body").on("click", ".edit-user", function (e) {
 // ADD LOCATION
 $(".add-loc")
   .unbind()
-  .click(() => {
+  .click((e) => {
+    e.preventDefault();
     $("#addLoc").modal("show");
     $("#location-new").val("");
-    $(".addLoc-btn")
-      .unbind()
-      .click(() => {
-        const locationNew = $("#location-new").val();
-        if (locationNew) {
-          const locExists = locations.includes(locationNew);
-          if (!locExists) {
-            $.ajax({
-              url: "libs/php/insertLocation.php",
-              type: "GET",
-              dataType: "json",
-              data: {
-                name: locationNew,
-              },
-              success: function (result) {
-                if (result.status.code == 200) {
-                  $("#addLoc").modal("hide");
-                  $(".loc-dtl").empty();
-                  $(".toast-success .toast-body").html(
-                    "New Location Added Successfully"
-                  );
-                  successToast.show();
-                  getAllLocation();
-                }
-              },
-              error: function (jqXHR, textStatus, errorThrown) {
-                // your error code
-                console.log(textStatus);
-                console.log(errorThrown);
-                console.log(jqXHR);
-              },
-            });
-          } else {
-            $("#addLoc").modal("hide");
-            $(".toast-info .toast-body").html(`Location already exists`);
-            infoToast.show();
-          }
-        } else {
-          $(".toast-danger .toast-header strong").html("Enter Location Value");
 
-          dangerToast.show();
+    $("#addLocForm").unbind().on("submit", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const locationNew = $("#location-new").val();
+
+      if (locationNew) {
+        const locExists = locations.filter((item) => item.name == locationNew);
+        if (locExists.length < 1) {
+          $.ajax({
+            url: "libs/php/insertLocation.php",
+            type: "GET",
+            dataType: "json",
+            data: {
+              name: locationNew,
+            },
+            success: function (result) {
+              if (result.status.code == 200) {
+                $("#addLoc").modal("hide");
+                $(".loc-dtl").empty();
+                $(".toast-success .toast-body").html(
+                  "New Location Added Successfully"
+                );
+                successToast.show();
+                getAllLocation();
+              }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+              // your error code
+              console.log(textStatus);
+              console.log(errorThrown);
+              console.log(jqXHR);
+            },
+          });
+        } else {
+          $("#addLoc").modal("hide");
+          $(".toast-info .toast-body").html(
+            `<b>${locationNew}</b> already exists`
+          );
+          infoToast.show();
         }
-      });
+      } else {
+        $(".toast-danger .toast-header strong").html("Enter Location Value");
+
+        dangerToast.show();
+      }
+    });
   });
 
 // Delete LOcation
@@ -1018,20 +1060,21 @@ $("body").on("click", ".delete-loc", function (e) {
   e.preventDefault();
 
   const value = $(this).closest("tr").find("td.location-r").data("id");
-  locConfirm.show();
-  $(".locConfirm .confirm")
-    .unbind()
-    .click(() => {
-      const result = getPersonnelByLocation(value);
-      if (result.data.length > 0) {
-        locConfirm.hide();
-        $(".toast-danger .toast-header strong").html("Cannot delete Location");
-        $(".toast-danger .toast-body").html(
-          result.data[0].count +
-            " department record(s) related to this location"
-        );
-        dangerToast.show();
-      } else {
+  const result = getPersonnelByLocation(value);
+  if (result.data.length > 0) {
+    dangerToast.show();
+    $(".toast-danger .toast-header strong").html("Cannot delete Location");
+    $(".toast-danger .toast-body").html(
+      result.data[0].count + " department record(s) related to this location"
+    );
+  } else {
+    const locDel = locations.filter((item) => item.id == value);
+
+    $(".locConfirm .toast-body span").html(`<b>${locDel[0].name}</b>`);
+    locConfirm.show();
+    $(".locConfirm .confirm")
+      .unbind()
+      .click(() => {
         $.ajax({
           url: "libs/php/deleteLocationByID.php",
           type: "GET",
@@ -1045,9 +1088,7 @@ $("body").on("click", ".delete-loc", function (e) {
               "Location deleted successfully"
             );
             successToast.show();
-
             //   Update Table
-
             getAllLocation();
           },
           error: function (jqXHR, textStatus, errorThrown) {
@@ -1057,69 +1098,93 @@ $("body").on("click", ".delete-loc", function (e) {
             console.log(jqXHR);
           },
         });
-      }
-    });
+      });
+  }
 });
 
 // Edit Location
 
 $("body").on("click", ".edit-loc", function (e) {
   e.preventDefault();
-  var value = $(this).closest("tr").find(".location-r").text();
+
   var locID = $(this).closest("tr").find("td.location-r").data("id");
 
   $("#editLocation").modal("show");
+  $.ajax({
+    url: "libs/php/getAllLocation.php",
+    type: "GET",
+    dataType: "json",
+    data: {
+      id: locID,
+    },
+    success: function (result) {
+      const loc = result.data.filter((item) => item.id == locID);
 
-  $("#editLocation #edit-loc").val(value);
-  $(".update-location")
-    .unbind()
-    .click(() => {
+      $("#editLocation #edit-loc").val(loc[0].name);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      // your error code
+      console.log(textStatus);
+      console.log(errorThrown);
+      console.log(jqXHR);
+    },
+  });
+
+  $("#editLocForm").unbind().on("submit", (e) => {
+    {
+      e.preventDefault();
+      e.stopPropagation();
       $("#editLocation").modal("hide");
 
       const result = getPersonnelByLocation(locID);
-      if (result.data) {
-        $(".toastUpdate .toast-body h6").html(
-          result.data[0].count +
-            "  department(s) will be affected with this update."
-        );
 
+      const newLoc = $("#edit-loc").val();
+      const locationExists = locations.filter((item) => item.name == newLoc);
+
+      if (locationExists.length < 1) {
+        if (result.data.length > 0) {
+          $(".toastUpdate .toast-body h6").html(
+            result.data[0].count +
+              "  department(s) will be affected with this update."
+          );
+        } else {
+          $(".toastUpdate .toast-body h6").html(
+            0 + "  department(s) will be affected with this update."
+          );
+        }
         updateToast.show();
         $(".toast-update-btn")
           .unbind()
           .click(() => {
-            const newLoc = $("#edit-loc").val();
-            const locationExists = locations.includes(newLoc);
+            $.ajax({
+              url: "libs/php/updateLocation.php",
+              type: "GET",
+              dataType: "json",
+              data: {
+                name: newLoc,
+                id: locID,
+              },
+              success: function (result) {
+                updateToast.hide();
 
-            if (!locationExists) {
-              $.ajax({
-                url: "libs/php/updateLocation.php",
-                type: "GET",
-                dataType: "json",
-                data: {
-                  name: newLoc,
-                  id: locID,
-                },
-                success: function (result) {
-                  updateToast.hide();
-
-                  $(".toast-success .toast-body").html("Location Updated");
-                  successToast.show();
-                  $(".loc-dtl").empty();
-                  getAllLocation();
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                  // your error code
-                  console.log(textStatus);
-                  console.log(errorThrown);
-                  console.log(jqXHR);
-                },
-              });
-            } else {
-              updateToast.hide();
-              $(".toast-info .toast-body").html(`"${newLoc}" already exists`);
-              infoToast.show();
-            }
+                $(".toast-success .toast-body").html("Location Updated");
+                successToast.show();
+                $(".loc-dtl").empty();
+                getAllLocation();
+              },
+              error: function (jqXHR, textStatus, errorThrown) {
+                // your error code
+                console.log(textStatus);
+                console.log(errorThrown);
+                console.log(jqXHR);
+              },
+            });
           });
+      } else {
+        updateToast.hide();
+        $(".toast-info .toast-body").html(`"${newLoc}" already exists`);
+        infoToast.show();
       }
-    });
+    }
+  });
 });

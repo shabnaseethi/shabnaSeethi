@@ -32,8 +32,8 @@
         >
           <!-- <span class="navbar-toggler-icon "
             >Search</span> -->
-            <i class="fa fa-search" aria-hidden="true"></i>
-            SEARCH
+          <i class="fa fa-search" aria-hidden="true"></i>
+          SEARCH
         </button>
         <div class="dropdown add-btn">
           <button
@@ -127,561 +127,701 @@
       </div>
     </div>
 
-    <!-- Table -->
+    <div class="container main-wrapper">
+      <!-- Table -->
 
-    <div class="container tbl-container emp-container">
-      <div class="row tbl-fixed">
-        <table
-          class="table table-bordered table-striped table-hover employee-dtl"
+      <div class="container tbl-container emp-container">
+        <div class="row tbl-fixed">
+          <table
+            class="table table-bordered table-striped table-hover employee-dtl"
+          >
+            <thead class="thead-dark">
+              <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th class="d-none d-lg-table-cell">Department</th>
+                <th class="d-none d-lg-table-cell">Location</th>
+                <th class="d-none d-lg-table-cell d-md-table-cell">Email</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="container tbl-container dep-container">
+        <div class="row tbl-fixed">
+          <table
+            class="table table-bordered table-striped table-responsive table-hover dept-dtl"
+          ></table>
+        </div>
+      </div>
+
+      <div class="container tbl-container loc-container">
+        <div class="row tbl-fixed">
+          <table
+            class="table table-bordered table-striped table-responsive table-hover loc-dtl"
+          ></table>
+        </div>
+      </div>
+      <!-- ---------------------Modal Box  ADD USER ------------------------------->
+      <div
+        id="addUser"
+        class="modal fade"
+        tabindex="-1"
+        data-bs-backdrop="false"
+        data-bs-keyboard="false"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div
+          class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable"
         >
-        <thead class="thead-dark">
-          <tr>
-          <th>Firstname</th>
-          <th>Lastname</th>
-          <th>Department</th>
-          <th>Location</th>
-          <th>Email</th>
-          <th >Delete</th>
-          <th >Edit</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-      </div>
-    </div>
+          <div class="modal-content shadow">
+            <form id="addUserForm">
+              <div class="modal-header">
+                <h5 class="modal-title">Add Employee</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
 
-    <div class="container tbl-container dep-container">
-      <div class="row tbl-fixed">
-        <table
-        class="table table-bordered table-striped table-responsive table-hover dept-dtl"
-      ></table>
-      </div>
-    </div>
+              <div class="modal-body">
+                <input type="hidden" id="employeeID" />
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="firstName"
+                    placeholder="First name"
+                    required
+                  />
+                  <label for="firstName">First name</label>
+                </div>
 
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="lastName"
+                    placeholder="Last name"
+                    required
+                  />
+                  <label for="lastName">Last name</label>
+                </div>
 
-    <div class="container tbl-container loc-container">
-      <div class="row tbl-fixed">
-        <table
-        class="table table-bordered table-striped table-responsive table-hover loc-dtl"
-      ></table>
-      </div>
-    </div>
-    <!-- ---------------------Modal Box  ADD USER ------------------------------->
-    <div
-      class="modal fade"
-      id="addUser"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-              ADD NEW PERSONNEL
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label for="firstName" class="form-label">First Name</label>
-              <input type="text" class="form-control" id="firstName" />
-              <label for="lastName" class="form-label">Last Name</label>
-              <input type="text" class="form-control" id="lastName" />
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">Email address</label>
-              <input
-                type="email"
-                class="form-control"
-                id="email"
-                placeholder="name@example.com"
-              />
-            </div>
-            <div class="mb-3 droplist">
-              <label for="exampleFormControlInput1" class="form-label"
-                >Select Department</label
-              >
-              <select
-                class="custom-select dept add-user-dept"
-                id="new-dept"
-              ></select>
-            </div>
-            <div class="mb-3 droplist">
-              <label for="exampleFormControlInput1" class="form-label"
-                >Location</label
-              >
+                <div class="form-floating mb-3">
+                  <select
+                    class="form-select dept add-user-dept"
+                    id="new-dept"
+                    placeholder="Department"
+                  ></select>
+                  <label for="new-dept">Department</label>
+                </div>
 
-              <select
-                class="custom-select location disabled"
-                id="add-user-loc"
-              ></select>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary addUser-btn">
-              Save changes
-            </button>
+                <div class="form-floating mb-3">
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    placeholder="Email address"
+                    required
+                  />
+                  <label for="emailAddress">Email Address</label>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button
+                  type="submit"
+                  class="btn btn-outline-secondary btn-sm addUser-btn"
+                >
+                  SAVE
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary btn-sm myBtn"
+                  data-bs-dismiss="modal"
+                >
+                  CANCEL
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- ------------------------------------MODAL BOX  ADD DEPARTMENT---------------------- -->
+      <!-- ------------------------------------MODAL BOX  ADD DEPARTMENT---------------------- -->
 
-    <div
-      class="modal fade"
-      id="addDept"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">
-              ADD NEW DEPARTMENT
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label for="email" class="form-label">Add New Department</label>
-              <input type="text" class="form-control" id="dept-new" />
-            </div>
+      <div
+        id="addDept"
+        class="modal fade"
+        tabindex="-1"
+        data-bs-backdrop="false"
+        data-bs-keyboard="false"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div
+          class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable"
+        >
+          <div class="modal-content shadow">
+            <form id="addDeptForm">
+              <div class="modal-header">
+                <h5 class="modal-title">Add Department</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
 
-            <div class="mb-3 droplist">
-              <label for="exampleFormControlInput1" class="form-label"
-                >Location</label
-              >
+              <div class="modal-body">
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="dept-new"
+                    placeholder="New Department"
+                    required
+                  />
+                  <label for="firstName">New Department</label>
+                </div>
 
-              <select class="custom-select location" id="loc-new"></select>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary addDept-btn">
-              Save changes
-            </button>
+                <div class="form-floating">
+                  <select
+                    class="form-select location"
+                    id="loc-new"
+                    placeholder="Department"
+                  ></select>
+                  <label for="new-dept">Location</label>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button
+                  type="submit"
+                  class="btn btn-outline-secondary btn-sm addDept-btn"
+                >
+                  SAVE
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary btn-sm myBtn"
+                  data-bs-dismiss="modal"
+                >
+                  CANCEL
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- -------------------------------------------------MODAL BOX ADD LOCATION---------------------------- -->
+      <!-- -------------------------------------------------MODAL BOX ADD LOCATION---------------------------- -->
 
-    <div
-      class="modal fade"
+      <div
       id="addLoc"
+      class="modal fade"
       tabindex="-1"
+      data-bs-backdrop="false"
+      data-bs-keyboard="false"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">ADD NEW LOCATION</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label for="email" class="form-label">Add New Location</label>
-              <input type="text" class="form-control" id="location-new" />
+      <div
+        class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable"
+      >
+        <div class="modal-content shadow">
+          <form id="addLocForm">
+            <div class="modal-header">
+              <h5 class="modal-title">Add Location</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-primary addLoc-btn"
-              id="liveToastBtn"
-            >
-              Save changes
-            </button>
-          </div>
+
+            <div class="modal-body">
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="location-new"
+                  placeholder="New Department"
+                  required
+                />
+                <label for="location-new">New Location</label>
+              </div>
+
+           
+            </div>
+
+            <div class="modal-footer">
+              <button
+                type="submit"
+                class="btn btn-outline-secondary btn-sm addLoc-btn"
+              >
+                SAVE
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary btn-sm myBtn"
+                data-bs-dismiss="modal"
+              >
+                CANCEL
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
 
-    <!-- -----------------------------------------------Edit USer------------------------------------- -->
+      <!-- -----------------------------------------------Edit USer------------------------------------- -->
 
-    <div
-      class="modal fade"
-      id="editUser"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">EDIT PERSONNEL</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label for="firstName" class="form-label">First Name</label>
-              <input
-                type="email"
-                class="form-control editFirst"
-                id="firstName"
-              />
-              <label for="lastName" class="form-label">Last Name</label>
-              <input type="email" class="form-control editLast" id="lastName" />
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">Email address</label>
-              <input
-                type="email"
-                class="form-control editEmail"
-                id="email"
-                placeholder="name@example.com"
-              />
-            </div>
-            <div class="mb-3 droplist">
-              <label for="exampleFormControlInput1" class="form-label"
-                >Select Department</label
-              >
-              <select
-                class="custom-select dept editDept"
-                id="new-dept"
-              ></select>
-            </div>
-            <div class="mb-3 droplist">
-              <label for="exampleFormControlInput1" class="form-label"
-                >Location</label
-              >
+      <div
+        id="editUser"
+        class="modal fade"
+        tabindex="-1"
+        data-bs-backdrop="false"
+        data-bs-keyboard="false"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div
+          class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable"
+        >
+          <div class="modal-content shadow">
+            <form id="editUserForm">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit Employee</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
 
-              <select
-                class="custom-select location editLocation disabled"
-                id="new-location"
-              ></select>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary new-btn update-user">
-              Update
-            </button>
+              <div class="modal-body">
+                <input type="hidden" id="employeeID" />
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control editFirst"
+                    id="firstName"
+                    placeholder="First name"
+                    required
+                  />
+                  <label for="firstName">First name</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control editLast"
+                    id="lastName"
+                    placeholder="Last name"
+                    required
+                  />
+                  <label for="lastName">Last name</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                  <select
+                    class="form-select dept editDept"
+                    id="new-dept"
+                    placeholder="Department"
+                  ></select>
+                  <label for="new-dept">Department</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                  <input
+                    type="email"
+                    class="form-control editEmail"
+                    id="email"
+                    placeholder="Email address"
+                    required
+                  />
+                  <label for="emailAddress">Email Address</label>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button
+                  type="submit"
+                  class="btn btn-outline-secondary btn-sm update-user"
+                >
+                  SAVE
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary btn-sm myBtn"
+                  data-bs-dismiss="modal"
+                >
+                  CANCEL
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- ----------------------------------------------------EDIT LOCATION---------------------------- -->
+      <!-- ----------------------------------------------------EDIT LOCATION---------------------------- -->
 
-    <div
-      class="modal fade"
+      <div
       id="editLocation"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">EDIT LOCATION</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="mb-3 droplist">
-              <label for="exampleFormControlInput1" class="form-label"
-                >Location</label
-              >
-              <input type="text" class="form-control editLoc" id="edit-loc" />
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-primary new-btn update-location"
-            >
-              Update
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- --------------------------------EDIT DEPARTMENT-------------------------------------- -->
-    <div
       class="modal fade"
-      id="editDeptt"
       tabindex="-1"
+      data-bs-backdrop="false"
+      data-bs-keyboard="false"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">EDIT DEPARTMENT</h5>
+      <div
+        class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable"
+      >
+        <div class="modal-content shadow">
+          <form id="editLocForm">
+            <div class="modal-header">
+              <h5 class="modal-title">Add Location</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+
+            <div class="modal-body">
+              <div class="form-floating mb-3">
+                <input
+                  type="text"
+                  class="form-control editLoc"
+                  id="edit-loc"
+                  placeholder="New Department"
+                  required
+                />
+                <label for="edit-loc">New Location</label>
+              </div>
+
+           
+            </div>
+
+            <div class="modal-footer">
+              <button
+                type="submit"
+                class="btn btn-outline-secondary btn-sm update-location"
+              >
+                SAVE
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary btn-sm myBtn"
+                data-bs-dismiss="modal"
+              >
+                CANCEL
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+      <!-- --------------------------------EDIT DEPARTMENT-------------------------------------- -->
+
+      <div
+        id="editDeptt"
+        class="modal fade"
+        tabindex="-1"
+        data-bs-backdrop="false"
+        data-bs-keyboard="false"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div
+          class="modal-dialog modal-sm modal-dialog-centered modal-dialog-scrollable"
+        >
+          <div class="modal-content shadow">
+            <form id="editDeptForm">
+              <div class="modal-header">
+                <h5 class="modal-title">Edit Department</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+
+              <div class="modal-body">
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="deptt-edit"
+                    placeholder="New Department"
+                    required
+                  />
+                  <label for="firstName">Department</label>
+                </div>
+
+                <div class="form-floating">
+                  <select
+                    class="form-select location"
+                    id="locc-edit"
+                    placeholder="Department"
+                  ></select>
+                  <label for="new-dept">Location</label>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button
+                  type="submit"
+                  class="btn btn-outline-secondary btn-sm updateDept-btn"
+                >
+                  SAVE
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary btn-sm my-btn"
+                  data-bs-dismiss="modal"
+                >
+                  CANCEL
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- ------------------------------Toasts------------------------ -->
+      <!-- -----------------------------Success Toasts--------------------------- -->
+      <div
+        class="position-fixed bottom-0 end-0 p-3 toast-success"
+        style="z-index: 11"
+        autohide="false"
+      >
+        <div
+          id="liveToast"
+          class="toast hide toastSuccess"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <div class="toast-header bg-success">
+            <strong class="me-auto">Success</strong>
+
             <button
               type="button"
               class="btn-close"
-              data-bs-dismiss="modal"
+              data-bs-dismiss="toast"
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label for="email" class="form-label">Department</label>
-              <input type="text" class="form-control" id="deptt-edit" />
-            </div>
+          <div class="toast-body"></div>
+        </div>
+      </div>
 
-            <div class="mb-3 droplist">
-              <label for="exampleFormControlInput1" class="form-label"
-                >Location</label
+      <!-- --------------------------------------------Danger Toasts-------------------------------- -->
+
+      <div
+        class="position-fixed bottom-0 end-0 p-3 toast-danger"
+        style="z-index: 11"
+        autohide="false"
+      >
+        <div
+          id="liveToast"
+          class="toast hide toastDanger"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <div class="toast-header bg-danger">
+            <strong class="me-auto">Success</strong>
+
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="toast"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="toast-body"></div>
+        </div>
+      </div>
+
+      <!-- -----------------------------Information Toasts--------------------------- -->
+
+      <div
+        class="position-fixed top-0 start-50 translate-middle-x p-3 toast-info"
+        style="z-index: 11"
+        autohide="false"
+      >
+        <div
+          id="liveToast"
+          class="toast hide toastInfo"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          data-bs-delay="1300"
+        >
+          <div class="toast-header bg-warning">
+            <strong class="me-auto"
+              ><i class="fa-sharp fa-solid fa-triangle-exclamation"></i
+            ></strong>
+
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="toast"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="toast-body"><h5></h5></div>
+        </div>
+      </div>
+
+      <!-- ------------------Confirmation Delete User-------------------- -->
+      <div
+        class="position-fixed top-50 start-50 translate-middle p-3 toast-confirm"
+        style="z-index: 11"
+        autohide="false"
+      >
+        <div
+          id="liveToast"
+          class="toast hide userConfirm"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          data-bs-autohide="false"
+        >
+          <div class="toast-body bg-warning">
+            Are you sure that you want to delete the entry <span></span> and related data?
+            <div class="mt-2 pt-2 border-top confirm-toast">
+              <button type="button" class="btn btn-primary btn-sm confirm">
+                Confirm
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary btn-sm"
+                data-bs-dismiss="toast"
               >
-
-              <select class="custom-select location" id="locc-edit"></select>
+                Cancel
+              </button>
             </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary updateDept-btn">
-              Save changes
-            </button>
+        </div>
+      </div>
+
+      <!-- ------------------Confirmation Delete Department-------------------- -->
+      <div
+        class="position-fixed top-50 start-50 translate-middle p-3 toast-confirm"
+        style="z-index: 11"
+        autohide="false"
+      >
+        <div
+          id="liveToast"
+          class="toast hide deptConfirm"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          data-bs-autohide="false"
+        >
+          <div class="toast-body bg-warning">
+            Are you sure that you want to delete the entry <span></span> and related data?
+            <div class="mt-2 pt-2 border-top confirm-toast">
+              <button type="button" class="btn btn-primary btn-sm confirm">
+                Confirm
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary btn-sm"
+                data-bs-dismiss="toast"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- ------------------------------Toasts------------------------ -->
-    <!-- -----------------------------Success Toasts--------------------------- -->
-    <div
-      class="position-fixed bottom-0 end-0 p-3 toast-success"
-      style="z-index: 11"
-      autohide="false"
-    >
+      <!-- ------------------Confirmation Delete Location-------------------- -->
       <div
-        id="liveToast"
-        class="toast hide toastSuccess"
-        role="alert"
-        aria-live="assertive"
-        aria-atomic="true"
+        class="position-fixed top-50 start-50 translate-middle p-3 toast-confirm"
+        style="z-index: 11"
+        autohide="false"
       >
-        <div class="toast-header bg-success">
-          <strong class="me-auto">Success</strong>
-
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="toast"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="toast-body"></div>
-      </div>
-    </div>
-
-    <!-- --------------------------------------------Danger Toasts-------------------------------- -->
-
-    <div
-      class="position-fixed bottom-0 end-0 p-3 toast-danger"
-      style="z-index: 11"
-      autohide="false"
-    >
-      <div
-        id="liveToast"
-        class="toast hide toastDanger"
-        role="alert"
-        aria-live="assertive"
-        aria-atomic="true"
-      >
-        <div class="toast-header bg-danger">
-          <strong class="me-auto">Success</strong>
-
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="toast"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="toast-body"></div>
-      </div>
-    </div>
-
-    <!-- -----------------------------Information Toasts--------------------------- -->
-
-    <div
-      class="position-fixed top-0 start-50 translate-middle-x p-3 toast-info"
-      style="z-index: 11"
-      autohide="false"
-    >
-      <div
-        id="liveToast"
-        class="toast hide toastInfo"
-        role="alert"
-        aria-live="assertive"
-        aria-atomic="true"
-      >
-        <div class="toast-header bg-warning">
-          <strong class="me-auto"
-            ><i class="fa-sharp fa-solid fa-triangle-exclamation"></i
-          ></strong>
-
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="toast"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="toast-body"><h5></h5></div>
-      </div>
-    </div>
-
-    <!-- ------------------Confirmation Delete User-------------------- -->
-    <div
-      class="position-fixed top-50 start-50 translate-middle p-3 toast-confirm"
-      style="z-index: 11"
-      autohide="false"
-    >
-      <div
-        id="liveToast"
-        class="toast hide userConfirm"
-        role="alert"
-        aria-live="assertive"
-        aria-atomic="true"
-        data-bs-autohide="false"
-      >
-        <div class="toast-body bg-warning">
-          Do you want to delete user and data?
-          <div class="mt-2 pt-2 border-top confirm-toast">
-            <button type="button" class="btn btn-primary btn-sm confirm">
-              Confirm
-            </button>
-            <button
-              type="button"
-              class="btn btn-secondary btn-sm"
-              data-bs-dismiss="toast"
-            >
-              Cancel
-            </button>
+        <div
+          id="liveToast"
+          class="toast hide locConfirm"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          data-bs-autohide="false"
+        >
+          <div class="toast-body bg-warning">
+            Are you sure that you want to delete the entry <span></span> and related data?
+            <div class="mt-2 pt-2 border-top confirm-toast">
+              <button type="button" class="btn btn-primary btn-sm confirm">
+                Confirm
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary btn-sm"
+                data-bs-dismiss="toast"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- ------------------Confirmation Delete Department-------------------- -->
-    <div
-      class="position-fixed top-50 start-50 translate-middle p-3 toast-confirm"
-      style="z-index: 11"
-      autohide="false"
-    >
+      <!-- --------------------------Confirmation update------------------ -->
+
       <div
-        id="liveToast"
-        class="toast hide deptConfirm"
-        role="alert"
-        aria-live="assertive"
-        aria-atomic="true"
-        data-bs-autohide="false"
+        class="position-fixed top-50 start-50 translate-middle p-3 toast-update"
+        style="z-index: 11"
+        autohide="false"
       >
-        <div class="toast-body bg-warning">
-          Do you want to delete department and data?
-          <div class="mt-2 pt-2 border-top confirm-toast">
-            <button type="button" class="btn btn-primary btn-sm confirm">
-              Confirm
-            </button>
-            <button
-              type="button"
-              class="btn btn-secondary btn-sm"
-              data-bs-dismiss="toast"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+        <div
+          id="liveToast"
+          class="toast hide toastUpdate"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          data-bs-autohide="false"
+        >
+          <div class="toast-header"><h5>Do you want to update?</h5></div>
+          <div class="toast-body bg-warning">
+            <h6></h6>
 
-    <!-- ------------------Confirmation Delete Location-------------------- -->
-    <div
-      class="position-fixed top-50 start-50 translate-middle p-3 toast-confirm"
-      style="z-index: 11"
-      autohide="false"
-    >
-      <div
-        id="liveToast"
-        class="toast hide locConfirm"
-        role="alert"
-        aria-live="assertive"
-        aria-atomic="true"
-        data-bs-autohide="false"
-      >
-        <div class="toast-body bg-warning">
-          Do you want to delete the location and the details?
-          <div class="mt-2 pt-2 border-top confirm-toast">
-            <button type="button" class="btn btn-primary btn-sm confirm">
-              Confirm
-            </button>
-            <button
-              type="button"
-              class="btn btn-secondary btn-sm"
-              data-bs-dismiss="toast"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- --------------------------Confirmation update------------------ -->
-
-    <div
-      class="position-fixed top-50 start-50 translate-middle p-3 toast-update"
-      style="z-index: 11"
-      autohide="false"
-    >
-      <div
-        id="liveToast"
-        class="toast hide toastUpdate"
-        role="alert"
-        aria-live="assertive"
-        aria-atomic="true"
-        data-bs-autohide="false"
-      >
-        <div class="toast-header"><h5>Do you want to update?</h5></div>
-        <div class="toast-body bg-warning">
-          <h6></h6>
-
-          <div class="mt-2 pt-2 border-top confirm-toast">
-            <button
-              type="button"
-              class="btn btn-primary btn-sm toast-update-btn"
-            >
-              Confirm
-            </button>
-            <button
-              type="button"
-              class="btn btn-secondary btn-sm"
-              data-bs-dismiss="toast"
-            >
-              Cancel
-            </button>
+            <div class="mt-2 pt-2 border-top confirm-toast">
+              <button
+                type="button"
+                class="btn btn-primary btn-sm toast-update-btn"
+              >
+                Confirm
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary btn-sm"
+                data-bs-dismiss="toast"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
       </div>

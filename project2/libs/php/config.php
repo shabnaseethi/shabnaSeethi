@@ -7,6 +7,8 @@
 	$cd_port = 3306;
 	$cd_socket = "";
 
+	
+
 
 	
 
