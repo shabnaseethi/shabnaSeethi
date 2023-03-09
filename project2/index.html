@@ -214,7 +214,16 @@
                   />
                   <label for="lastName">Last name</label>
                 </div>
-
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="job"
+                    placeholder="Email address"
+                    required
+                  />
+                  <label for="job">Job Title</label>
+                </div>
                 <div class="form-floating mb-3">
                   <select
                     class="form-select dept add-user-dept"
@@ -436,6 +445,17 @@
                 </div>
 
                 <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control editJob"
+                    id="job"
+                    placeholder="Job Title"
+                    required
+                  />
+                  <label for="job">Job Title</label>
+                </div>
+
+                <div class="form-floating mb-3">
                   <select
                     class="form-select dept editDept"
                     id="new-dept"
@@ -493,7 +513,7 @@
         <div class="modal-content shadow">
           <form id="editLocForm">
             <div class="modal-header">
-              <h5 class="modal-title">Add Location</h5>
+              <h5 class="modal-title">Edit Location</h5>
               <button
                 type="button"
                 class="btn-close"

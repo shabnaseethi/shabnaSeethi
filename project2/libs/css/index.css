@@ -99,7 +99,7 @@ div.container{
   margin-top: 40px;
 }
 div.loc-container,div.dep-container{
- max-width: 60%;
+ min-width: 60%;
   min-height: 100vh;
 }
 

@@ -111,6 +111,8 @@ const getAllLocation = () => {
     success: function (result) {
       result.data.sort((a, b) => a.name.localeCompare(b.name));
 
+
+      $(".location").find('option').not(':first').remove();
       result.data.forEach((location) => {
         $(".location")
           .append(`<option class="locationVal" value=${location.id}>${location.name}</option>
@@ -170,6 +172,7 @@ const getAllDepartments = () => {
     dataType: "json",
     success: function (result) {
       //   result.data.sort((a, b) => a.name.localeCompare(b.name));
+      $(".dept").find('option').not(':first').remove();;
       result.data.map((department) => {
         $(".dept")
           .append(` <option id="department-val" value=${department.departmentID}>${department.department}</option>
@@ -313,9 +316,9 @@ $("body").on("click", ".search-btn", function (e) {
             <tr>
             <td class="emp" data-id=${employee.id}>${employee.firstName}</td>
             <td class="lastname">${employee.lastName}</td>
-            <td class="department_row" data-deptid=${employee.departmentID}>${employee.name}</td>
-            <td class="location_row" data-locid=${employee.locationID}>${employee.location}</td>
-            <td>${employee.email}</td>
+            <td class="department_row d-none d-lg-table-cell" data-deptid=${employee.departmentID}>${employee.name}</td>
+            <td class="location_row d-none d-lg-table-cell" data-locid=${employee.locationID}>${employee.location}</td>
+            <td class="d-none d-lg-table-cell d-md-table-cell">${employee.email}</td>
             <td><i class="fa-solid fa-trash delete-user"></i></td>
             <td><i class="fa-solid fa-pen-to-square edit-user"></i></td>
           </tr>
@@ -354,9 +357,9 @@ $("body").on("click", ".search-btn", function (e) {
               <tr>
               <td class="emp" data-id=${employee.id}>${employee.firstName}</td>
               <td class="lastname">${employee.lastName}</td>
-              <td class="department_row" data-deptid=${employee.departmentID}>${employee.name}</td>
-              <td class="location_row" data-locid=${employee.locationID}>${employee.location}</td>
-              <td>${employee.email}</td>
+              <td class="department_row d-none d-lg-table-cell " data-deptid=${employee.departmentID}>${employee.name}</td>
+              <td class="location_row d-none d-lg-table-cell" data-locid=${employee.locationID}>${employee.location}</td>
+              <td class="d-none d-lg-table-cell d-md-table-cell">${employee.email}</td>
               <td><i class="fa-solid fa-trash delete-user"></i></td>
             <td><i class="fa-solid fa-pen-to-square edit-user"></i></td>
             </tr>
@@ -394,9 +397,9 @@ $("body").on("click", ".search-btn", function (e) {
             <tr>
             <td class="emp" data-id=${employee.id}>${employee.firstName}</td>
             <td class="lastname">${employee.lastName}</td>
-            <td class="department_row" data-deptid=${employee.departmentID}>${employee.name}</td>
-            <td class="location_row" data-locid=${employee.locationID}>${employee.location}</td>
-            <td>${employee.email}</td>
+            <td class="department_row d-none d-lg-table-cell" data-deptid=${employee.departmentID}>${employee.name}</td>
+            <td class="location_row d-none d-lg-table-cell" data-locid=${employee.locationID}>${employee.location}</td>
+            <td class="d-none d-lg-table-cell d-md-table-cell">${employee.email}</td>
             <td><i class="fa-solid fa-trash delete-user"></i></td>
             <td><i class="fa-solid fa-pen-to-square edit-user"></i></td>
           </tr>
@@ -431,9 +434,9 @@ $("body").on("click", ".search-btn", function (e) {
              <tr>
             <td class="emp" data-id=${employee.id}>${employee.firstName}</td>
             <td class="lastname">${employee.lastName}</td>
-            <td class="department_row" data-deptid=${employee.departmentID}>${employee.department}</td>
-            <td class="location_row" data-locid=${employee.locationID}>${employee.location}</td>
-            <td>${employee.email}</td>
+            <td class="department_row d-none d-lg-table-cell" data-deptid=${employee.departmentID}>${employee.department}</td>
+            <td class="location_row d-none d-lg-table-cell" data-locid=${employee.locationID}>${employee.location}</td>
+            <td class="d-none d-lg-table-cell d-md-table-cell">${employee.email}</td>
             <td><i class="fa-solid fa-trash delete-user"></i></td>
             <td><i class="fa-solid fa-pen-to-square edit-user"></i></td>
           </tr>
@@ -472,9 +475,9 @@ $("body").on("click", ".search-btn", function (e) {
           <tr>
           <td class="emp" data-id=${employee.id}>${employee.firstName}</td>
           <td class="lastname">${employee.lastName}</td>
-          <td class="department_row" data-deptid=${employee.departmentID}>${employee.department}</td>
-          <td class="location_row" data-locid=${employee.locationID}>${employee.location}</td>
-          <td>${employee.email}</td>
+          <td class="department_row d-none d-lg-table-cell" data-deptid=${employee.departmentID}>${employee.department}</td>
+          <td class="location_row d-none d-lg-table-cell" data-locid=${employee.locationID}>${employee.location}</td>
+          <td class="d-none d-lg-table-cell d-md-table-cell">${employee.email}</td>
           <td><i class="fa-solid fa-trash delete-user"></i></td>
           <td><i class="fa-solid fa-pen-to-square edit-user"></i></td>
         </tr>
@@ -514,9 +517,9 @@ $("body").on("click", ".search-btn", function (e) {
           <tr>
           <td class="emp" data-id=${employee.id}>${employee.firstName}</td>
           <td class="lastname">${employee.lastName}</td>
-          <td class="department_row" data-deptid=${employee.departmentID}>${employee.department}</td>
-          <td class="location_row" data-locid=${employee.locationID}>${employee.location}</td>
-          <td>${employee.email}</td>
+          <td class="department_row d-none d-lg-table-cell" data-deptid=${employee.departmentID}>${employee.department}</td>
+          <td class="location_row d-none d-lg-table-cell" data-locid=${employee.locationID}>${employee.location}</td>
+          <td class="d-none d-lg-table-cell d-md-table-cell">${employee.email}</td>
           <td><i class="fa-solid fa-trash delete-user"></i></td>
             <td><i class="fa-solid fa-pen-to-square edit-user"></i></td>
         </tr>
@@ -557,9 +560,9 @@ $("body").on("click", ".search-btn", function (e) {
              <tr>
               <td class="emp" data-id=${employee.id}>${employee.firstName}</td>
               <td class="lastname">${employee.lastName}</td>
-              <td class="department_row" data-deptid=${employee.departmentID}>${employee.department}</td>
-              <td class="location_row" data-locid=${employee.locationID}>${employee.location}</td>
-              <td>${employee.email}</td>
+              <td class="department_row d-none d-lg-table-cell" data-deptid=${employee.departmentID}>${employee.department}</td>
+              <td class="location_row d-none d-lg-table-cell" data-locid=${employee.locationID}>${employee.location}</td>
+              <td class="d-none d-lg-table-cell d-md-table-cell">${employee.email}</td>
               <td><i class="fa-solid fa-trash delete-user"></i></td>
             <td><i class="fa-solid fa-pen-to-square edit-user"></i></td>
             </tr>
@@ -823,6 +826,7 @@ $(".add-user").click(() => {
   var firstname = $("#firstName").val("");
   var lastname = $("#lastName").val("");
   var email = $("#email").val("");
+  var job = $("#job").val();
   
 
   $("#addUserForm")
@@ -836,6 +840,7 @@ $(".add-user").click(() => {
       firstname = $("#firstName").val();
       lastname = $("#lastName").val();
       email = $("#email").val();
+      job = $("#job").val();
 
       if (newDept && firstname && lastname && email) {
         $.ajax({
@@ -848,6 +853,7 @@ $(".add-user").click(() => {
             email: email,
             departmentID: newDept,
             department: departt,
+            job:job
           },
           success: function (result) {
             if (result.status.code == 200) {
@@ -928,12 +934,14 @@ $("body").on("click", ".edit-user", function (e) {
       deptID: deptID,
     },
     success: function (result) {
+     
       $("#editUser").modal("show");
     
       $("#editUser .editFirst").val(result.data.personnel[0].firstName);
       $("#editUser .editLast").val(result.data.personnel[0].lastName);
       $("#editUser .editEmail").val(result.data.personnel[0].email);
       $("#editUser .editDept").val(result.data.personnel[0].departmentID);
+      $("#editUser .editJob").val(result.data.personnel[0].jobTitle);
 
       $("#editUserForm")
         .unbind()
@@ -946,13 +954,15 @@ $("body").on("click", ".edit-user", function (e) {
             lastName: $("#editUser .editLast").val(),
             email: $("#editUser .editEmail").val(),
             department: $("#editUser .editDept").val(),
+            job:$("#editUser .editJob").val(),
           };
 
           if (
             updatePersonnel.firstName &&
             updatePersonnel.lastName &&
             updatePersonnel.email &&
-            updatePersonnel.department
+            updatePersonnel.department &&
+            updatePersonnel.job
           ) {
             $.ajax({
               url: "libs/php/updatePersonnel.php",
@@ -964,6 +974,7 @@ $("body").on("click", ".edit-user", function (e) {
                 lastname: updatePersonnel.lastName,
                 email: updatePersonnel.email,
                 departmentID: updatePersonnel.department,
+                job:updatePersonnel.job
               },
               success: function (result) {
                 if (result.status.code == 200) {
